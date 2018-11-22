@@ -43,3 +43,9 @@ ehthumbs.db
 [Dd]esktop.ini
 Corridor/Library/ShaderCache/
 Corridor/Library/metadata/
+
+UWP/
+
+Assets/WSATestCertificate\.pfx
+
+Assets/WSATestCertificate\.pfx\.meta

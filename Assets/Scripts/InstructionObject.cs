@@ -3,9 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InstructionObject : MonoBehaviour {
+public class InstructionObject : InspectableObject {
 
-    public GameObject[] stepList;
+    public InstructionStep[] stepList;
+    public TextMesh helpText;
     private int currentIndex = 0;
 
 	// Use this for initialization
@@ -23,7 +24,7 @@ public class InstructionObject : MonoBehaviour {
 
     internal void NextStep()
     {
-        if (currentIndex < stepList.Length)
+        if (currentIndex < stepList.Length - 1)
         {
             currentIndex++;
             DisplayCurrentStep();
@@ -32,7 +33,7 @@ public class InstructionObject : MonoBehaviour {
 
     internal void PreviousStep()
     {
-        if (currentIndex >= 0)
+        if (currentIndex > 0)
         {
             currentIndex--;
             DisplayCurrentStep();
@@ -41,9 +42,16 @@ public class InstructionObject : MonoBehaviour {
 
     void DisplayCurrentStep()
     {
+        helpText.gameObject.SetActive(false);
         for (int i = 0; i < stepList.Length; i++)
         {
-            stepList[i].SetActive(i == currentIndex);
+            stepList[i].Step.SetActive(i == currentIndex);
         }
+    }
+
+    public override void Help()
+    {
+        helpText.text = stepList[currentIndex].Help;
+        helpText.gameObject.SetActive(true);
     }
 }

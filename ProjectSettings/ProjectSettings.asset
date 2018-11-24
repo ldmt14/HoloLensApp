@@ -565,7 +565,7 @@ PlayerSettings:
   m_MobileRenderingPath: 1
   metroPackageName: HoloLensApp
   metroPackageVersion: 1.0.0.0
-  metroCertificatePath: C:\Users\ldamt\Documents\Uni\Projektphase\HoloLensApp\Assets\WSATestCertificate.pfx
+  metroCertificatePath: Assets\WSATestCertificate.pfx
   metroCertificatePassword: 
   metroCertificateSubject: LongQian
   metroCertificateIssuer: LongQian

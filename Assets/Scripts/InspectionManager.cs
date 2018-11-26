@@ -19,7 +19,6 @@ public class InspectionManager : MonoBehaviour {
             if (inspectableObject != null)
             {
                 LastFocusedObject = inspectableObject;
-                Debug.Log("Hallo");
             }
         }
     }

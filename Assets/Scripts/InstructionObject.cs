@@ -6,7 +6,6 @@ using UnityEngine;
 public class InstructionObject : InspectableObject {
 
     public InstructionStep[] stepList;
-    public TextMesh helpText;
     private int currentIndex = 0;
 
 	// Use this for initialization
@@ -42,7 +41,6 @@ public class InstructionObject : InspectableObject {
 
     void DisplayCurrentStep()
     {
-        helpText.gameObject.SetActive(false);
         for (int i = 0; i < stepList.Length; i++)
         {
             stepList[i].Step.SetActive(i == currentIndex);
@@ -51,7 +49,9 @@ public class InstructionObject : InspectableObject {
 
     public override void Help()
     {
-        helpText.text = stepList[currentIndex].Help;
-        helpText.gameObject.SetActive(true);
+        if (stepList[currentIndex].Help != null)
+        {
+            stepList[currentIndex].Help.SetActive(true);
+        }
     }
 }

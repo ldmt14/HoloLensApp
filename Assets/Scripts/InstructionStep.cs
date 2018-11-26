@@ -7,5 +7,5 @@ using UnityEngine;
 public struct InstructionStep
 {
     public GameObject Step;
-    public string Help;
+    public GameObject Help;
 }

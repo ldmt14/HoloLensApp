@@ -49,3 +49,5 @@ UWP/
 Assets/WSATestCertificate\.pfx
 
 Assets/WSATestCertificate\.pfx\.meta
+
+Assets/HoloToolkit*

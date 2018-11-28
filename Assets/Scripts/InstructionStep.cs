@@ -8,4 +8,10 @@ public struct InstructionStep
 {
     public GameObject Step;
     public GameObject Help;
+
+    public InstructionStep(GameObject Step, GameObject Help)
+    {
+        this.Step = Step;
+        this.Help = Help;
+    }
 }

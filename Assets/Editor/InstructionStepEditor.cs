@@ -6,10 +6,12 @@ using UnityEngine;
 
 public class InstructionStepEditor : EditorWindow
 {
-    private bool initialized = false;
+    internal bool initialized = false;
+    internal bool editMode;
     private string objectName;
+    private GameObject helpObject;
 
-    internal InstructionStep PreviousStep { private get; set; }
+    internal InstructionStep PreviousStep { get; set; }
 
     internal InstructionEditor Caller { private get; set; }
 
@@ -21,7 +23,27 @@ public class InstructionStepEditor : EditorWindow
         }
         objectName = EditorGUILayout.TextField("Name", objectName);
 
-        if (initialized)
+        EditorGUILayout.BeginHorizontal();
+        helpObject = (GameObject) EditorGUILayout.ObjectField("Help Object", helpObject, typeof(GameObject), true);
+        if (GUILayout.Button("New Text"))
+        {
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/UI-Text.prefab");
+            helpObject = Instantiate(prefab);
+            helpObject.name = "UI-Text";
+            var canvas = helpObject.GetComponent<Canvas>();
+            canvas.worldCamera = Camera.main;
+        }
+        if (GUILayout.Button("New Video"))
+        {
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/UI-Video.prefab");
+            helpObject = Instantiate(prefab);
+            helpObject.name = "UI-Video";
+            var canvas = helpObject.GetComponent<Canvas>();
+            canvas.worldCamera = Camera.main;
+        }
+        EditorGUILayout.EndHorizontal();
+
+        if (editMode)
         {
             if (GUILayout.Button("Edit Step"))
             {
@@ -39,18 +61,20 @@ public class InstructionStepEditor : EditorWindow
 
     private void Initialize()
     {
-        if (PreviousStep.Step != null)
-        {
-            objectName = PreviousStep.Step.name;
-            initialized = true;
-        }
+        objectName = PreviousStep.Step != null ? PreviousStep.Step.name : "";
+        helpObject = PreviousStep.Help;
+        initialized = true;
     }
 
     private void CreateStep()
     {
         var prefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/InstructionStep.prefab");
-        var instructionStep = new InstructionStep(Instantiate(prefab), null);
+        var instructionStep = new InstructionStep(Instantiate(prefab), helpObject);
         instructionStep.Step.name = objectName;
+        if (helpObject != null)
+        {
+            helpObject.transform.parent = instructionStep.Step.transform;
+        }
         Caller.CreateStep(instructionStep);
         Caller.Focus();
         Close();
@@ -59,16 +83,15 @@ public class InstructionStepEditor : EditorWindow
     private void EditStep()
     {
         var prefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/InstructionStep.prefab");
-        var instructionStep = new InstructionStep(Instantiate(prefab), null);
+        var instructionStep = new InstructionStep(Instantiate(prefab), helpObject);
         instructionStep.Step.name = objectName;
+        if (helpObject != null)
+        {
+            helpObject.transform.parent = instructionStep.Step.transform;
+        }
         Caller.ReplaceStep(PreviousStep, instructionStep);
         Caller.Focus();
         Close();
-    }
-
-    private void OnLostFocus()
-    {
-        Focus();
     }
 }
 

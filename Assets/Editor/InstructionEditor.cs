@@ -35,12 +35,19 @@ public class InstructionEditor : EditorWindow {
                 var window = GetWindow<InstructionStepEditor>();
                 window.Caller = this;
                 window.PreviousStep = step;
+                window.editMode = true;
+                window.initialized = false;
             }
             if (GUILayout.Button("Delete", GUILayout.ExpandWidth(false)))
             {
                 todo += () =>
                 {
                     instructionSteps.Remove(step);
+                    var windows = Resources.FindObjectsOfTypeAll<InstructionStepEditor>();
+                    if (windows != null && windows.Length > 0 && windows[0].PreviousStep.Equals(step))
+                    {
+                        windows[0].Close();
+                    }
                     DestroyImmediate(step.Step);
                 };
             }
@@ -51,6 +58,9 @@ public class InstructionEditor : EditorWindow {
         {
             var window = GetWindow<InstructionStepEditor>();
             window.Caller = this;
+            window.PreviousStep = new InstructionStep(null, null);
+            window.editMode = false;
+            window.initialized = false;
         }
 
         GUILayout.BeginHorizontal();

@@ -121,4 +121,9 @@ public class InstructionEditor : EditorWindow {
         instructionObject = Instantiate(prefab);
         instructionObject.name = objectName;
     }
+
+    private void OnDestroy()
+    {
+        Undo.RegisterCreatedObjectUndo(instructionObject, "Create Instructionobject");
+    }
 }

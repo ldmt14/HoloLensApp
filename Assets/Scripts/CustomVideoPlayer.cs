@@ -7,6 +7,8 @@ public class CustomVideoPlayer : MonoBehaviour {
 
     private VideoPlayer videoPlayerComponent;
 
+    public bool PlayOnEnable = true;
+
     private void Awake()
     {
         videoPlayerComponent = gameObject.GetComponent<VideoPlayer>();
@@ -18,8 +20,10 @@ public class CustomVideoPlayer : MonoBehaviour {
 
     private void OnEnable()
     {
-        videoPlayerComponent.frame = 0;
-        videoPlayerComponent.Play();
+        if (PlayOnEnable)
+        {
+            videoPlayerComponent.Play();
+        }
     }
 
     private void OnDisable()

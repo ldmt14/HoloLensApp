@@ -33,6 +33,21 @@ public class SpeechManager : MonoBehaviour {
             InspectionManager.Close();
         });
 
+        keywords.Add("Play", () =>
+        {
+            VideoManager.Play();
+        });
+
+        keywords.Add("Pause", () =>
+        {
+            VideoManager.Pause();
+        });
+
+        keywords.Add("Stop", () =>
+        {
+            VideoManager.Stop();
+        });
+
         // Tell the KeywordRecognizer about our keywords.
         keywordRecognizer = new KeywordRecognizer(keywords.Keys.ToArray());
 

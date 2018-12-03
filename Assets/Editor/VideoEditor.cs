@@ -25,14 +25,18 @@ public class VideoEditor : EditorWindow {
         {
             var prefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/UI-Video.prefab");
             var videoObject = Instantiate(prefab);
+            var videoPlayer = videoObject.GetComponentInChildren<VideoPlayer>();
 
             if (selection == 0)
             {
-                videoObject.GetComponentInChildren<VideoPlayer>().url = url;
+                videoPlayer.source = VideoSource.Url;
+                videoPlayer.url = url;
             }
             else
             {
-                videoObject.GetComponentInChildren<VideoPlayer>().clip = videoClip;
+                videoPlayer.source = VideoSource.VideoClip;
+                videoPlayer.clip = videoClip;
+                videoPlayer.SetTargetAudioSource(0, videoPlayer.gameObject.GetComponent<AudioSource>() ?? videoPlayer.gameObject.AddComponent<AudioSource>());
             }
 
             videoObject.name = prefab.name;

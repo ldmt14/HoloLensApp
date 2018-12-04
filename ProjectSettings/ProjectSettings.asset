@@ -565,11 +565,11 @@ PlayerSettings:
   m_MobileRenderingPath: 1
   metroPackageName: HoloLensApp
   metroPackageVersion: 1.0.0.0
-  metroCertificatePath: 
+  metroCertificatePath: Assets\WSATestCertificate.pfx
   metroCertificatePassword: 
-  metroCertificateSubject: 
-  metroCertificateIssuer: 
-  metroCertificateNotAfter: 0000000000000000
+  metroCertificateSubject: LongQian
+  metroCertificateIssuer: LongQian
+  metroCertificateNotAfter: 803e13e566e3d401
   metroApplicationDescription: HoloLensApp
   wsaImages: {}
   metroTileShortName: 

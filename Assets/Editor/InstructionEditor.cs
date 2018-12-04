@@ -84,7 +84,7 @@ public class InstructionEditor : EditorWindow {
             if (index >= 0)
             {
                 instructionSteps[index] = newStep;
-                newStep.Step.transform.parent = instructionObject.transform;
+                newStep.Step.transform.SetParent(instructionObject.transform, true);
                 newStep.Step.transform.SetSiblingIndex(index);
                 DestroyImmediate(previousStep.Step);
             } else
@@ -99,7 +99,7 @@ public class InstructionEditor : EditorWindow {
         todo += () =>
         {
             instructionSteps.Add(instructionStep);
-            instructionStep.Step.transform.parent = instructionObject.transform;
+            instructionStep.Step.transform.SetParent(instructionObject.transform, true);
         };
     }
 
@@ -124,6 +124,9 @@ public class InstructionEditor : EditorWindow {
 
     private void OnDestroy()
     {
-        Undo.RegisterCreatedObjectUndo(instructionObject, "Create Instructionobject");
+        if (instructionObject != null)
+        {
+            Undo.RegisterCreatedObjectUndo(instructionObject, "Create Instructionobject");
+        } 
     }
 }

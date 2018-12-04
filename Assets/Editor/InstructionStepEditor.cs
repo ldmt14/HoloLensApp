@@ -8,7 +8,6 @@ public class InstructionStepEditor : EditorWindow
 {
     internal bool initialized = false;
     internal bool editMode;
-    private string objectName;
     private List<InstructionStepComponent> components = new List<InstructionStepComponent>();
     private GameObject prefab;
     private Action todo;
@@ -16,6 +15,8 @@ public class InstructionStepEditor : EditorWindow
     internal GameObject HelpObject { private get; set; }
 
     internal InstructionStep PreviousStep { get; set; }
+
+    private InstructionStep newStep;
 
     internal InstructionEditor Caller { private get; set; }
 
@@ -25,17 +26,18 @@ public class InstructionStepEditor : EditorWindow
         {
             Initialize();
         }
-        objectName = EditorGUILayout.TextField("Name", objectName);
+        newStep.Step.name = EditorGUILayout.TextField("Name", newStep.Step.name);
         BeforeIterate();
 
         foreach(InstructionStepComponent component in components) {
             EditorGUILayout.BeginHorizontal();
-            component.FoldoutStatus = EditorGUILayout.Foldout(component.FoldoutStatus, component.Prefab.name);
+            component.FoldoutStatus = EditorGUILayout.Foldout(component.FoldoutStatus, component.GameObject.name);
             if (GUILayout.Button("Remove"))
             {
                 todo += () =>
                 {
                     components.Remove(component);
+                    DestroyImmediate(component.GameObject);
                 };
             }
             EditorGUILayout.EndHorizontal();
@@ -43,10 +45,10 @@ public class InstructionStepEditor : EditorWindow
             if (component.FoldoutStatus)
             {
                 EditorGUI.indentLevel++;
-                component.Prefab = (GameObject)EditorGUILayout.ObjectField("GameObject", component.Prefab, typeof(GameObject), true);
-                component.Position = EditorGUILayout.Vector3Field("Position", component.Position);
-                component.Rotation = Quaternion.Euler(EditorGUILayout.Vector3Field("Rotation", component.Rotation.eulerAngles));
-                component.Scale = EditorGUILayout.Vector3Field("Scale", component.Scale);
+                component.GameObject = (GameObject)EditorGUILayout.ObjectField("GameObject", component.GameObject, typeof(GameObject), true);
+                component.GameObject.transform.position = EditorGUILayout.Vector3Field("Position", component.GameObject.transform.position);
+                component.GameObject.transform.localRotation = Quaternion.Euler(EditorGUILayout.Vector3Field("Rotation", component.GameObject.transform.localRotation.eulerAngles));
+                component.GameObject.transform.localScale = EditorGUILayout.Vector3Field("Scale", component.GameObject.transform.localScale);
                 EditorGUI.indentLevel--;
             }
         }
@@ -54,7 +56,7 @@ public class InstructionStepEditor : EditorWindow
         prefab = (GameObject)EditorGUILayout.ObjectField("Prefab for new Component", prefab, typeof(GameObject), false);
         if (prefab != null && GUILayout.Button("New Component"))
         {
-            components.Add(new InstructionStepComponent(prefab));
+            AddComponent(prefab);
         }
 
         EditorGUILayout.BeginHorizontal();
@@ -69,20 +71,28 @@ public class InstructionStepEditor : EditorWindow
         }
         EditorGUILayout.EndHorizontal();
 
-        if (editMode)
+        EditorGUILayout.BeginHorizontal();
+        if (GUILayout.Button("OK"))
         {
-            if (GUILayout.Button("Edit Step"))
-            {
-                EditStep();
-            }
+            Close();
         }
-        else
+        if (GUILayout.Button("Cancel"))
         {
-            if (GUILayout.Button("Create Step"))
-            {
-                CreateStep();
-            }
+            Cancel();
+            Close();
         }
+        EditorGUILayout.EndHorizontal();
+    }
+
+    private void AddComponent(GameObject prefab)
+    {
+        var obj = Instantiate(prefab);
+        obj.name = prefab.name;
+        obj.transform.SetParent(newStep.Step.transform, false);
+        EditorGUIUtility.PingObject(obj);
+        Selection.activeGameObject = obj;
+        SceneView.lastActiveSceneView.FrameSelected();
+        components.Add(new InstructionStepComponent(obj));
     }
 
     private void BeforeIterate()
@@ -96,46 +106,59 @@ public class InstructionStepEditor : EditorWindow
 
     private void Initialize()
     {
-        objectName = PreviousStep.Step != null ? PreviousStep.Step.name : "";
-        HelpObject = PreviousStep.Help;
+        if (PreviousStep.Step != null)
+        {
+            newStep = PreviousStep;
+            foreach (Transform child in newStep.Step.transform)
+            {
+                //Skip the HelpObject
+                if (newStep.Help != null && child == newStep.Help.transform)
+                {
+                    continue;
+                }
+                components.Add(new InstructionStepComponent(child.gameObject));
+            }
+        }
+        else
+        {
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/InstructionStep.prefab");
+            newStep = new InstructionStep(Instantiate(prefab), null);
+            newStep.Step.name = prefab.name;
+        }
+        HelpObject = newStep.Help;
         initialized = true;
     }
 
-    private void CreateStep()
+    private void SubmitStep()
     {
-        var prefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/InstructionStep.prefab");
-        var instructionStep = new InstructionStep(Instantiate(prefab), HelpObject);
-        instructionStep.Step.name = objectName;
-        foreach (InstructionStepComponent component in components)
-        {
-            var obj = Instantiate(component.Prefab);
-            obj.name = component.Prefab.name;
-            obj.transform.parent = instructionStep.Step.transform;
-            obj.transform.localPosition = component.Position;
-            obj.transform.localRotation = component.Rotation;
-            obj.transform.localScale = component.Scale;
-        }
+        var instructionStep = new InstructionStep(newStep.Step, HelpObject);
         if (HelpObject != null)
         {
-            HelpObject.transform.parent = instructionStep.Step.transform;
+            HelpObject.transform.SetParent(instructionStep.Step.transform, false);
         }
-        Caller.CreateStep(instructionStep);
+        if (editMode)
+        {
+            Caller.ReplaceStep(PreviousStep, instructionStep);
+        }
+        else
+        {
+            Caller.CreateStep(instructionStep);
+        }
         Caller.Focus();
-        Close();
     }
 
-    private void EditStep()
+    private void Cancel()
     {
-        var prefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/InstructionStep.prefab");
-        var instructionStep = new InstructionStep(Instantiate(prefab), HelpObject);
-        instructionStep.Step.name = objectName;
-        if (HelpObject != null)
+        DestroyImmediate(newStep.Step);
+        DestroyImmediate(newStep.Help);
+    }
+
+    private void OnDestroy()
+    {
+        if (newStep.Step != null)
         {
-            HelpObject.transform.parent = instructionStep.Step.transform;
+            SubmitStep();
         }
-        Caller.ReplaceStep(PreviousStep, instructionStep);
-        Caller.Focus();
-        Close();
     }
 }
 

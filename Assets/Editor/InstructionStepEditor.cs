@@ -108,7 +108,7 @@ public class InstructionStepEditor : EditorWindow
     {
         if (PreviousStep.Step != null)
         {
-            newStep = PreviousStep;
+            newStep = PreviousStep.Clone();
             foreach (Transform child in newStep.Step.transform)
             {
                 //Skip the HelpObject
@@ -125,6 +125,9 @@ public class InstructionStepEditor : EditorWindow
             newStep = new InstructionStep(Instantiate(prefab), null);
             newStep.Step.name = prefab.name;
         }
+        EditorGUIUtility.PingObject(newStep.Step);
+        Selection.activeGameObject = newStep.Step;
+        SceneView.lastActiveSceneView.FrameSelected();
         HelpObject = newStep.Help;
         initialized = true;
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HoloToolkit.Unity.QRTracking;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,7 @@ using UnityEngine;
 public class InstructionEditor : EditorWindow {
     private GameObject instructionObject;
     private string objectName = "InstructionObject";
+    private AttachToQRCode qrScript;
     private List<InstructionStep> instructionSteps = new List<InstructionStep>();
 
     private Action todo = null;
@@ -21,6 +23,9 @@ public class InstructionEditor : EditorWindow {
     internal void OnGUI()
     {
         instructionObject.name = objectName = EditorGUILayout.TextField("Name", objectName);
+        var serialized = new SerializedObject(qrScript);
+        serialized.FindProperty("qRCodeData").stringValue = EditorGUILayout.TextField("QR Code Data", qrScript.QRCodeData);
+        serialized.ApplyModifiedPropertiesWithoutUndo();
 
         var iterator = instructionSteps.GetEnumerator();
 
@@ -120,6 +125,12 @@ public class InstructionEditor : EditorWindow {
         var prefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Instruction.prefab");
         instructionObject = Instantiate(prefab);
         instructionObject.name = objectName;
+        qrScript = instructionObject.GetComponent<AttachToQRCode>();
+        if (qrScript == null)
+        {
+            qrScript = instructionObject.AddComponent<AttachToQRCode>();
+        }
+
     }
 
     private void OnDestroy()

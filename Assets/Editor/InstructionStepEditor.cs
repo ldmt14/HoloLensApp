@@ -125,6 +125,7 @@ public class InstructionStepEditor : EditorWindow
             newStep = new InstructionStep(Instantiate(prefab), null);
             newStep.Step.name = prefab.name;
         }
+        newStep.Step.SetActive(true);
         EditorGUIUtility.PingObject(newStep.Step);
         Selection.activeGameObject = newStep.Step;
         SceneView.lastActiveSceneView.FrameSelected();

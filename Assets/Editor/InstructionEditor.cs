@@ -91,6 +91,7 @@ public class InstructionEditor : EditorWindow {
                 instructionSteps[index] = newStep;
                 newStep.Step.transform.SetParent(instructionObject.transform, true);
                 newStep.Step.transform.SetSiblingIndex(index);
+                newStep.Step.SetActive(false);
                 DestroyImmediate(previousStep.Step);
             } else
             {
@@ -105,6 +106,7 @@ public class InstructionEditor : EditorWindow {
         {
             instructionSteps.Add(instructionStep);
             instructionStep.Step.transform.SetParent(instructionObject.transform, true);
+            instructionStep.Step.SetActive(false);
         };
     }
 

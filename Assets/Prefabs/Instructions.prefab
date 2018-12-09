@@ -109,6 +109,7 @@ GameObject:
   - component: {fileID: 223805350031517392}
   - component: {fileID: 114557017976902640}
   - component: {fileID: 114600770824273394}
+  - component: {fileID: 114280310737779514}
   m_Layer: 0
   m_Name: OctoPiInfo
   m_TagString: Untagged
@@ -1255,6 +1256,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114280310737779514
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1159180788940070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e544a7f6326aa2b4bac33eb3f81649f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ProgressBar: {fileID: 114148554883366708}
+  TemperatureBar: {fileID: 0}
+  FileNameText: {fileID: 114337419373105810}
 --- !u!114 &114319419652615024
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1394,7 +1409,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed526732ea248894c84d51ad13d23acb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  octoPiInfo: {fileID: 0}
+  octoPiInfo: {fileID: 114280310737779514}
 --- !u!114 &114437097185360242
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -27,15 +27,14 @@ public class TemperatureUI : MonoBehaviour {
             UpdateTemperatureUI();
         }
     }
-
     private void UpdateTemperatureUI()
     {
         temperatureSlider.value = TemperatureData.actual;
         actualTemperatureText.text = TemperatureData.actual.ToString("0.0") +  "°C";
         var x = targetTemperatureObject.transform.localPosition.x;
         var z = targetTemperatureObject.transform.localPosition.z;
-        var y = TemperatureData.target * 100 / temperatureSlider.maxValue;
+        var y = (((TemperatureData.target - 1) / temperatureSlider.maxValue) - 0.5f) * 100;
         targetTemperatureObject.transform.localPosition = new Vector3(x, y, z);
-        targetTemperatureText.text = "Target" + TemperatureData.target.ToString("0.0") + "°C";
+        targetTemperatureText.text = "Target: " + TemperatureData.target.ToString("0.0") + "°C";
     }
 }

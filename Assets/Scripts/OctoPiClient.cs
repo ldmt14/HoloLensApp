@@ -7,6 +7,7 @@ using UnityEngine;
 namespace OctoPi
 {
     public delegate void JobInformationCallback(JobInformationResponse response);
+    public delegate void StateInformationCallback(FullStateResponse response);
 
     public class OctoPiClient : MonoBehaviour
     {
@@ -26,7 +27,8 @@ namespace OctoPi
         public static void GetJobInformation(JobInformationCallback callback)
         {
             JobInformationResponse result;
-            var json = @"{
+            var json = @"
+{
   ""job"": {
     ""file"": {
       ""name"": ""whistle_v2.gcode"",
@@ -48,6 +50,82 @@ namespace OctoPi
   }
 }";
             result = JsonConvert.DeserializeObject<JobInformationResponse>(json);
+            callback.Invoke(result);
+        }
+
+        public static void GetStateInformation(StateInformationCallback callback)
+        {
+            FullStateResponse result;
+            var json = @"
+{
+  ""temperature"": {
+    ""tool0"": {
+                ""actual"": 214.8821,
+      ""target"": 220.0,
+      ""offset"": 0
+    },
+    ""tool1"": {
+                ""actual"": 25.3,
+      ""target"": null,
+      ""offset"": 0
+    },
+    ""bed"": {
+                ""actual"": 50.221,
+      ""target"": 70.0,
+      ""offset"": 5
+    },
+    ""history"": [
+      {
+        ""time"": 1395651928,
+        ""tool0"": {
+          ""actual"": 214.8821,
+          ""target"": 220.0
+        },
+        ""tool1"": {
+          ""actual"": 25.3,
+          ""target"": null
+        },
+        ""bed"": {
+          ""actual"": 50.221,
+          ""target"": 70.0
+        }
+      },
+      {
+        ""time"": 1395651926,
+        ""tool0"": {
+          ""actual"": 212.32,
+          ""target"": 220.0
+        },
+        ""tool1"": {
+          ""actual"": 25.1,
+          ""target"": null
+        },
+        ""bed"": {
+          ""actual"": 49.1123,
+          ""target"": 70.0
+        }
+      }
+    ]
+  },
+  ""sd"": {
+    ""ready"": true
+  },
+  ""state"": {
+    ""text"": ""Operational"",
+    ""flags"": {
+      ""operational"": true,
+      ""paused"": false,
+      ""printing"": false,
+      ""cancelling"": false,
+      ""pausing"": false,
+      ""sdReady"": true,
+      ""error"": false,
+      ""ready"": true,
+      ""closedOrError"": false
+    }
+  }
+}";
+            result = JsonConvert.DeserializeObject<FullStateResponse>(json);
             callback.Invoke(result);
         }
     }

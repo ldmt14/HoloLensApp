@@ -2,8 +2,8 @@
 {
     public class TemperatureData
     {
-        public double actual;
-        public double target;
-        public double offset;
+        public float actual;
+        public float target;
+        public float offset;
     }
 }

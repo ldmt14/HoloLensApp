@@ -33,6 +33,10 @@ namespace OctoPi
                 octoPiInfo.ProgressBar.value = response.progress.completion * octoPiInfo.ProgressBar.maxValue;
                 octoPiInfo.FileNameText.text = response.job.file.name;
             });
+            OctoPiClient.GetStateInformation((response) =>
+            {
+                octoPiInfo.TemperatureBar.TemperatureData = response.temperature.tool0;
+            });
         }
     }
 }

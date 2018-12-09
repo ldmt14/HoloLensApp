@@ -6,7 +6,7 @@ namespace OctoPi
     public class OctoPiInfoObject : MonoBehaviour
     {
         public Slider ProgressBar;
-        public Slider TemperatureBar;
+        public TemperatureUI TemperatureBar;
         public Text FileNameText;
     }
 }

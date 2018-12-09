@@ -1,4 +1,5 @@
 ﻿using HoloToolkit.Unity.QRTracking;
+using OctoPi;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,6 +12,8 @@ public class InstructionEditor : EditorWindow {
     private string objectName = "InstructionObject";
     private AttachToQRCode qrScript;
     private List<InstructionStep> instructionSteps = new List<InstructionStep>();
+    private bool includeOctoPiData = false;
+    private GameObject octoPiInfoObject;
 
     private Action todo = null;
 
@@ -66,6 +69,31 @@ public class InstructionEditor : EditorWindow {
             window.PreviousStep = new InstructionStep(null, null);
             window.editMode = false;
             window.initialized = false;
+        }
+
+        if (includeOctoPiData = GUILayout.Toggle(includeOctoPiData, "Include OctoPi-Data"))
+        {
+            if (octoPiInfoObject == null)
+            {
+                var prefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/OctoPiInfo.prefab");
+                octoPiInfoObject = Instantiate(prefab);
+                octoPiInfoObject.name = prefab.name;
+                octoPiInfoObject.transform.SetParent(instructionObject.transform, false);
+                octoPiInfoObject.GetComponent<Canvas>().worldCamera = Camera.main;
+                var octoPiObject = instructionObject.AddComponent<OctoPiObject>();
+                octoPiObject.octoPiInfo = octoPiInfoObject.GetComponent<OctoPiInfoObject>();
+            }
+        } else
+        {
+            if (octoPiInfoObject != null)
+            {
+                var octoPiComponent = instructionObject.GetComponent<OctoPiObject>();
+                if (octoPiComponent != null)
+                {
+                    DestroyImmediate(octoPiComponent);
+                }
+                DestroyImmediate(octoPiInfoObject);
+            }
         }
 
         GUILayout.BeginHorizontal();

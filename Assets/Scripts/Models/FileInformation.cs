@@ -12,7 +12,7 @@ namespace OctoPi
         public List<string> typePath;
         public string hash;
         public long size;
-        public DateTime date;
+        public long date;
         public string origin;
     }
 }

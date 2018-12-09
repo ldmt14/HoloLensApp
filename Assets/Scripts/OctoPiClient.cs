@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -46,7 +47,7 @@ namespace OctoPi
     ""printTimeLeft"": 912
   }
 }";
-            result = JsonUtility.FromJson<JobInformationResponse>(json);
+            result = JsonConvert.DeserializeObject<JobInformationResponse>(json);
             callback.Invoke(result);
         }
     }

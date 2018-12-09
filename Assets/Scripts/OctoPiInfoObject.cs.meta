@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: e544a7f6326aa2b4bac33eb3f81649f4
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - ProgressBar: {instanceID: 0}
+  - TemperatureBar: {instanceID: 0}
+  - FileNameText: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

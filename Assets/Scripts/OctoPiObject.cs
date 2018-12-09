@@ -7,12 +7,7 @@ namespace OctoPi
 {
     public class OctoPiObject : InspectableObject
     {
-        [SerializeField]
-        private Slider progressBar;
-        [SerializeField]
-        private Slider temperatureBar;
-        [SerializeField]
-        private Text fileNameText;
+        public OctoPiInfoObject octoPiInfo;
 
         public override void Help()
         {
@@ -35,8 +30,8 @@ namespace OctoPi
         {
             OctoPiClient.GetJobInformation((response) =>
             {
-                progressBar.value = response.progress.completion * progressBar.maxValue;
-                fileNameText.text = response.job.file.name;
+                octoPiInfo.ProgressBar.value = response.progress.completion * octoPiInfo.ProgressBar.maxValue;
+                octoPiInfo.FileNameText.text = response.job.file.name;
             });
         }
     }

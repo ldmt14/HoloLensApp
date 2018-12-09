@@ -66,7 +66,6 @@ namespace OctoPi
     },
     ""tool1"": {
                 ""actual"": 25.3,
-      ""target"": null,
       ""offset"": 0
     },
     ""bed"": {
@@ -83,7 +82,6 @@ namespace OctoPi
         },
         ""tool1"": {
           ""actual"": 25.3,
-          ""target"": null
         },
         ""bed"": {
           ""actual"": 50.221,
@@ -98,7 +96,6 @@ namespace OctoPi
         },
         ""tool1"": {
           ""actual"": 25.1,
-          ""target"": null
         },
         ""bed"": {
           ""actual"": 49.1123,

@@ -1,4 +1,7 @@
-﻿using Newtonsoft.Json;
+//#define LDMT_TESTING
+
+using CI.HttpClient;
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,11 +14,12 @@ namespace OctoPi
 
     public class OctoPiClient : MonoBehaviour
     {
-
+        public static HttpClient client;
+        private static readonly string domain = "http://localhost";
         // Use this for initialization
         void Start()
         {
-
+            client = new HttpClient();
         }
 
         // Update is called once per frame
@@ -27,6 +31,7 @@ namespace OctoPi
         public static void GetJobInformation(JobInformationCallback callback)
         {
             JobInformationResponse result;
+#if LDMT_TESTING
             var json = @"
 {
   ""job"": {
@@ -49,13 +54,27 @@ namespace OctoPi
     ""printTimeLeft"": 912
   }
 }";
-            result = JsonConvert.DeserializeObject<JobInformationResponse>(json);
-            callback.Invoke(result);
+#else
+            client.Get(new Uri(domain + "/api/job"), HttpCompletionOption.AllResponseContent, (response) =>
+            {
+                if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                {
+                    Debug.Log("Unsuccessfull Request");
+                    return;
+                }
+                var json = response.ReadAsString();
+#endif
+                result = JsonConvert.DeserializeObject<JobInformationResponse>(json);
+                callback.Invoke(result);
+#if !LDMT_TESTING
+            });
+#endif
         }
 
         public static void GetStateInformation(StateInformationCallback callback)
         {
             FullStateResponse result;
+#if LDMT_TESTING
             var json = @"
 {
   ""temperature"": {
@@ -122,8 +141,21 @@ namespace OctoPi
     }
   }
 }";
-            result = JsonConvert.DeserializeObject<FullStateResponse>(json);
-            callback.Invoke(result);
+#else
+            client.Get(new Uri(domain + ""), HttpCompletionOption.AllResponseContent, (response) =>
+            {
+                if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                {
+                    Debug.Log("Unsuccessfull Request");
+                    return;
+                }
+                var json = response.ReadAsString();
+#endif
+                result = JsonConvert.DeserializeObject<FullStateResponse>(json);
+                callback.Invoke(result);
+#if !LDMT_TESTING
+            });
+#endif
         }
     }
 }

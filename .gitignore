@@ -22,13 +22,14 @@ sysinfo.txt
 /*.pidb
 *.pidb.meta
 /*.suo
-/*.sln*
+*.sln*
 /*.user
 /*.unityproj
 /*.booproj
 .consulo/
 /*.tmp
 /*.svd
+*.vcxproj*
  
 # ============ #
 # OS generated #

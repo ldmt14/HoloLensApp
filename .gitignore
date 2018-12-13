@@ -54,3 +54,6 @@ Assets/WSATestCertificate\.pfx\.meta
 Assets/HoloToolkit*
 
 Assets/Videos*
+GCodeConverter/GCodeConverter/Debug/
+
+GCodeConverter/Debug/

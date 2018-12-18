@@ -572,7 +572,7 @@ PlayerSettings:
   metroCertificateNotAfter: 803e13e566e3d401
   metroApplicationDescription: HoloLensApp
   wsaImages: {}
-  metroTileShortName: 
+  metroTileShortName: HoloLensApp
   metroCommandLineArgsFile: 
   metroTileShowName: 0
   metroMediumTileShowName: 0

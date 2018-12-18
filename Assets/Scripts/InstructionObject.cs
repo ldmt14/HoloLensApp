@@ -18,8 +18,18 @@ public class InstructionObject : InspectableObject {
 	// Update is called once per frame
 	void Update ()
     {
-		
-	}
+
+    }
+
+    public void OnLeftSwipe()
+    {
+        NextStep();
+    }
+
+    public void OnRightSwipe()
+    {
+        NextStep();
+    }
 
     internal void NextStep()
     {

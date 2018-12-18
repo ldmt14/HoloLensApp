@@ -9,4 +9,9 @@ public abstract class InspectableObject : MonoBehaviour{
     }
 
     public abstract void Help();
+
+    public virtual void OnSelect()
+    {
+        Help();
+    }
 }

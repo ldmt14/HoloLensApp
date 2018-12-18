@@ -57,3 +57,6 @@ Assets/Videos*
 GCodeConverter/GCodeConverter/Debug/
 
 GCodeConverter/Debug/
+
+ConverterTest/Debug*
+ConverterTest/ConverterTest/Debug*

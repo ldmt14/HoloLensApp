@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #ifdef LIBRARY_EXPORTS
 #define LIBRARY_API __declspec(dllexport)

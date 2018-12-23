@@ -1,6 +1,4 @@
-// StlConverter.cpp : Definiert die exportierten Funktionen für die DLL-Anwendung.
-//
-#include "stdafx.h"
+﻿#include "pch.h"
 #include "StlConverter.h"
 #include <fstream>
 #include <string>
@@ -179,14 +177,16 @@ void writeObj(char* outputPath, char* name, std::vector<Triangle>* list) {
 
 		if (contains(&vertices, &(*list)[i].v2, &index)) {
 			currentTriangle.v2 = index;
-		} else {
+		}
+		else {
 			vertices.push_back((*list)[i].v2);
 			currentTriangle.v2 = index;
 		}
 
 		if (contains(&vertices, &(*list)[i].v3, &index)) {
 			currentTriangle.v3 = index;
-		} else {
+		}
+		else {
 			vertices.push_back((*list)[i].v3);
 			currentTriangle.v3 = index;
 		}
@@ -216,7 +216,7 @@ void convert(char* inputPath, char* outputPath) {
 	char *currentWord, *name = NULL;
 	int startOfFile = ftell(inputFile);
 	std::vector<Triangle>* triangles = NULL;
-	
+
 	// check if File starts with "solid"
 	fgets(lineBuffer, 500, inputFile);
 	currentWord = strtok(lineBuffer, " ");

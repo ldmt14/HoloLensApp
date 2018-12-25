@@ -14,5 +14,6 @@ namespace OctoPi
         public long size;
         public long date;
         public string origin;
+        public References refs;
     }
 }

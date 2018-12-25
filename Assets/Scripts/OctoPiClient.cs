@@ -47,12 +47,6 @@ namespace OctoPi
                 System.IO.File.WriteAllBytes(storagePath, request.downloadHandler.data);
                 callback.Invoke(true);
             }
-            /*
-            client.Get(new Uri(download), HttpCompletionOption.AllResponseContent, (response) =>
-            {
-                System.IO.File.WriteAllBytes(storagePath, response.ReadAsByteArray());
-            });
-            */
         }
 
         public static void GetFileInformation(string location, string path, FileInformationCallback callback)
@@ -75,21 +69,6 @@ namespace OctoPi
                 FileInformation result = JsonConvert.DeserializeObject<FileInformation>(json);
                 callback.Invoke(true, result);
             }
-            /*
-            client.Get(new Uri(domain + "/api/file/" + location + "/" + path), HttpCompletionOption.AllResponseContent, (response) =>
-            {
-                if (response.IsSuccessStatusCode)
-                {
-                    FileInformation result;
-                    var json = response.ReadAsString();
-                    result = JsonConvert.DeserializeObject<FileInformation>(json);
-                    callback.Invoke(true, result);
-                } else
-                {
-                    callback.Invoke(false, null);
-                }
-            });
-            */
         }
 
         public static void GetJobInformation(JobInformationCallback callback)
@@ -234,19 +213,6 @@ namespace OctoPi
 #if !LDMT_TESTING
             }
 #endif
-            /*
-        client.Get(new Uri(domain + ""), HttpCompletionOption.AllResponseContent, (response) =>
-        {
-            if (response.StatusCode != System.Net.HttpStatusCode.OK)
-            {
-                Debug.Log("Unsuccessfull Request");
-                return;
-            }
-            var json = response.ReadAsString();
-#endif
-            result = JsonConvert.DeserializeObject<FullStateResponse>(json);
-            callback.Invoke(result);
-*/
         }
     }
 }

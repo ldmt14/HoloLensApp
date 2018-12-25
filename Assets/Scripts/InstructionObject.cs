@@ -28,7 +28,7 @@ public class InstructionObject : InspectableObject {
 
     public void OnRightSwipe()
     {
-        NextStep();
+        PreviousStep();
     }
 
     internal void NextStep()

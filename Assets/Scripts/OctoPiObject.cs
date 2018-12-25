@@ -29,15 +29,21 @@ namespace OctoPi
         private void UpdateUI()
         {
             OctoPiClient.GetJobInformation(OnJobInformationRecieved);
-            OctoPiClient.GetStateInformation((response) =>
+            OctoPiClient.GetStateInformation((success, response) =>
             {
+                if (!success) return;
                 octoPiInfo.TemperatureBar.TemperatureData = response.temperature.tool0;
             });
         }
 
-        private void OnJobInformationRecieved(JobInformationResponse response)
+        private void OnJobInformationRecieved(bool jobInformationSuccess, JobInformationResponse response)
         {
+            if (!jobInformationSuccess) return;
             octoPiInfo.ProgressBar.value = response.progress.completion * octoPiInfo.ProgressBar.maxValue;
+            if (octoPiInfo.ObjectPrinted != null && octoPiInfo.FileNameText.text.Equals(response.job.file.name))
+            {
+                return;
+            }
             octoPiInfo.FileNameText.text = response.job.file.name;
             string fileName = response.job.file.path ?? response.job.file.name;
             int lastDot = fileName.LastIndexOf('.');
@@ -47,15 +53,16 @@ namespace OctoPi
             }
             string stlFileName = fileName.Substring(0, lastDot) + ".stl";
             string objFileName = fileName.Substring(0, lastDot) + ".obj";
-            OctoPiClient.GetFileInformation(this, "local", stlFileName, (success, fileInfo) =>
+            OctoPiClient.GetFileInformation("local", stlFileName, (fileInformationSuccess, fileInfo) =>
             {
-                if (success)
+                if (fileInformationSuccess)
                 {
 #if WINDOWS_UWP
                     string stlStoragePath = KnownFolders.Objects3D.Path + "/" + stlFileName;
                     string objStoragePath = KnownFolders.Objects3D.Path + "/" + objFileName;
-                    OctoPiClient.GetAndStoreFile(this, fileInfo.refs.download, stlStoragePath, () =>
+                    OctoPiClient.GetAndStoreFile(fileInfo.refs.download, stlStoragePath, (getAndStoreSuccess) =>
                     {
+                        if (!getAndStoreSuccess) return;
                         StlConverter.Converter.Convert(stlStoragePath, objStoragePath);
 
                         Mesh holderMesh = new Mesh();
@@ -67,7 +74,7 @@ namespace OctoPi
                         MeshRenderer renderer = cube.AddComponent<MeshRenderer>();
                         MeshFilter filter = cube.AddComponent<MeshFilter>();
                         filter.mesh = holderMesh;
-                        cube.transform.localScale = 0.001f * cube.transform.localScale;
+                        cube.transform.localScale = 0.01f * cube.transform.localScale;
                         octoPiInfo.UpdateObjectPrinted(cube);
                     });
 #endif

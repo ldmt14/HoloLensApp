@@ -8,7 +8,9 @@ namespace OctoPi
         public Slider ProgressBar;
         public TemperatureUI TemperatureBar;
         public Text FileNameText;
-        public GameObject ObjectPrinted;
+        [SerializeField]
+        private GameObject parentOfObjectPrinted;
+        internal GameObject ObjectPrinted;
 
         public void UpdateObjectPrinted(GameObject newObject)
         {
@@ -17,7 +19,7 @@ namespace OctoPi
                 Destroy(ObjectPrinted);
             }
             ObjectPrinted = newObject;
-            newObject.transform.parent = transform;
+            newObject.transform.parent = parentOfObjectPrinted.transform;
             newObject.transform.localPosition = new Vector3(0, 0, 0);
         }
     }

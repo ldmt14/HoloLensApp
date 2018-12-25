@@ -108,7 +108,19 @@ endsolid model
         StlConverter.Converter.Convert(folderPath + "/cube.stl", folderPath + "/cube.obj");
         Debug.Log("File Converted");
         Debug.Log(System.IO.File.ReadAllText(folderPath + "/cube.obj"));
-	}
+
+
+        Mesh holderMesh = new Mesh();
+        ObjImporter newMesh = new ObjImporter();
+        holderMesh = newMesh.ImportFile(folderPath + "/cube.obj");
+
+        GameObject cube = new GameObject();
+
+        MeshRenderer renderer = cube.AddComponent<MeshRenderer>();
+        MeshFilter filter = cube.AddComponent<MeshFilter>();
+        filter.mesh = holderMesh;
+        cube.transform.localScale = 0.001f * cube.transform.localScale;
+    }
 	
 	// Update is called once per frame
 	void Update () {

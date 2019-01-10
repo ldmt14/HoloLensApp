@@ -1476,7 +1476,6 @@ GameObject:
   - component: {fileID: 4069748465491544}
   - component: {fileID: 114072849688040672}
   - component: {fileID: 65430979530565896}
-  - component: {fileID: 114354931068643262}
   m_Layer: 0
   m_Name: FilamentChange
   m_TagString: Untagged
@@ -1733,7 +1732,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1952557360336674
 GameObject:
   m_ObjectHideFlags: 1
@@ -3644,19 +3643,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114354931068643262
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1841067436012206}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d007e166c1720ea4d8f542357574032f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameObjectToAttach: {fileID: 0}
-  qRCodeData: 
 --- !u!114 &114358249439698388
 MonoBehaviour:
   m_ObjectHideFlags: 1

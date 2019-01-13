@@ -40,6 +40,7 @@ GameObject:
   - component: {fileID: 4472504115308950}
   - component: {fileID: 114472420022230122}
   - component: {fileID: 114822953309270010}
+  - component: {fileID: 114654914602431280}
   m_Layer: 0
   m_Name: MarkerController
   m_TagString: Untagged
@@ -253,6 +254,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c26883758c14e244af02ff2913dece5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114654914602431280
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1543803816382278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34a575b7e37d4564bb4fcce0c1fce3e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  videoPreview: 1
+  previewPlane: {fileID: 0}
+  videoFPS: {fileID: 0}
+  videoParameter: 0
 --- !u!114 &114749715543312332
 MonoBehaviour:
   m_ObjectHideFlags: 1

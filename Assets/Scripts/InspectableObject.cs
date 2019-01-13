@@ -2,13 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class InspectableObject : MonoBehaviour{
+public class InspectableObject : MonoBehaviour{
+    [SerializeField]
+    private GameObject helpObject;
+
     public void Close()
     {
         gameObject.SetActive(false);
     }
 
-    public abstract void Help();
+    public virtual void Help()
+    {
+        if (helpObject != null)
+        {
+            helpObject.SetActive(true);
+        }
+    }
 
     public virtual void OnSelect()
     {

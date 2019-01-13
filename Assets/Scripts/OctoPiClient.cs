@@ -16,7 +16,6 @@ namespace OctoPi
     public class OctoPiClient : MonoBehaviour
     {
         private static OctoPiClient Instance;
-        public static readonly string domain = "http://10.10.10.13";
         public static readonly string xApiKey = "494F97703CD14F529D919058C1D2360E";
         // Use this for initialization
         void Start()
@@ -49,12 +48,12 @@ namespace OctoPi
             }
         }
 
-        public static void GetFileInformation(string location, string path, FileInformationCallback callback)
+        public static void GetFileInformation(string domain, string location, string path, FileInformationCallback callback)
         {
-            Instance.StartCoroutine(GetFileInformationInternal(location, path, callback));
+            Instance.StartCoroutine(GetFileInformationInternal(domain, location, path, callback));
         }
 
-        private static IEnumerator GetFileInformationInternal(string location, string path, FileInformationCallback callback)
+        private static IEnumerator GetFileInformationInternal(string domain, string location, string path, FileInformationCallback callback)
         {
             UnityWebRequest request = UnityWebRequest.Get(domain + "/api/files/" + location + "/" + path);
             request.SetRequestHeader("x-api-key", xApiKey);
@@ -71,12 +70,12 @@ namespace OctoPi
             }
         }
 
-        public static void GetJobInformation(JobInformationCallback callback)
+        public static void GetJobInformation(string domain, JobInformationCallback callback)
         {
-            Instance.StartCoroutine(GetJobInformationInternal(callback));
+            Instance.StartCoroutine(GetJobInformationInternal(domain, callback));
         }
 
-        private static IEnumerator GetJobInformationInternal(JobInformationCallback callback)
+        private static IEnumerator GetJobInformationInternal(string domain, JobInformationCallback callback)
         {
             JobInformationResponse result;
 #if LDMT_TESTING
@@ -121,12 +120,12 @@ namespace OctoPi
 #endif
         }
 
-        public static void GetStateInformation(StateInformationCallback callback)
+        public static void GetStateInformation(string domain, StateInformationCallback callback)
         {
-            Instance.StartCoroutine(GetStateInformationInternal(callback));
+            Instance.StartCoroutine(GetStateInformationInternal(domain, callback));
         }
 
-        private static IEnumerator GetStateInformationInternal(StateInformationCallback callback)
+        private static IEnumerator GetStateInformationInternal(string domain, StateInformationCallback callback)
         {
             FullStateResponse result;
 #if LDMT_TESTING

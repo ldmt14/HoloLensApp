@@ -8,6 +8,8 @@ namespace OctoPi
     public class OctoPiObject : InspectableObject
     {
         public OctoPiInfoObject octoPiInfo;
+        [SerializeField]
+        private string domain = "http://10.10.10.13";
 
         public override void Help()
         {
@@ -28,8 +30,8 @@ namespace OctoPi
 
         private void UpdateUI()
         {
-            OctoPiClient.GetJobInformation(OnJobInformationRecieved);
-            OctoPiClient.GetStateInformation((success, response) =>
+            OctoPiClient.GetJobInformation(domain, OnJobInformationRecieved);
+            OctoPiClient.GetStateInformation(domain, (success, response) =>
             {
                 if (!success) return;
                 octoPiInfo.TemperatureBar.TemperatureData = response.temperature.tool0;
@@ -53,7 +55,7 @@ namespace OctoPi
             }
             string stlFileName = fileName.Substring(0, lastDot) + ".stl";
             string objFileName = fileName.Substring(0, lastDot) + ".obj";
-            OctoPiClient.GetFileInformation("local", stlFileName, (fileInformationSuccess, fileInfo) =>
+            OctoPiClient.GetFileInformation(domain, "local", stlFileName, (fileInformationSuccess, fileInfo) =>
             {
                 if (fileInformationSuccess)
                 {

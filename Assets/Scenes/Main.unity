@@ -434,7 +434,7 @@ Prefab:
     - target: {fileID: 224386169762250484, guid: 3a023f34bf2c6d045bf10bcb4021a855,
         type: 2}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 224386169762250484, guid: 3a023f34bf2c6d045bf10bcb4021a855,
         type: 2}
@@ -554,6 +554,30 @@ GameObject:
   m_PrefabParentObject: {fileID: 1011425640081874, guid: 3a023f34bf2c6d045bf10bcb4021a855,
     type: 2}
   m_PrefabInternal: {fileID: 475164952}
+--- !u!65 &475164956
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 475164955}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 500, y: 500, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &475164957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 475164955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07e476ca816520f4f929c18a66f4b11e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  helpObject: {fileID: 836147688}
 --- !u!1 &836147688
 GameObject:
   m_ObjectHideFlags: 0
@@ -636,7 +660,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 836147688}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0.5}
   m_LocalScale: {x: 0.003, y: 0.003, z: 0.003}
   m_Children:
   - {fileID: 275899755}
@@ -693,6 +717,16 @@ Prefab:
       propertyPath: target
       value: 
       objectReference: {fileID: 1672085110}
+    - target: {fileID: 114822953309270010, guid: 7a9dc7d885795ab448bb194eb57efc96,
+        type: 2}
+      propertyPath: showOptions
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114472420022230122, guid: 7a9dc7d885795ab448bb194eb57efc96,
+        type: 2}
+      propertyPath: showOptions
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7a9dc7d885795ab448bb194eb57efc96, type: 2}
   m_IsPrefabParent: 0
@@ -895,7 +929,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1672085112}
   - component: {fileID: 1672085111}
-  - component: {fileID: 1672085113}
   m_Layer: 0
   m_Name: MakerBot
   m_TagString: Untagged
@@ -924,8 +957,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1672085110}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.5}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 1476135940}
   - {fileID: 475164954}
@@ -933,18 +966,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1672085113
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1672085110}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07e476ca816520f4f929c18a66f4b11e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  helpObject: {fileID: 836147688}
 --- !u!1 &2013519377
 GameObject:
   m_ObjectHideFlags: 0

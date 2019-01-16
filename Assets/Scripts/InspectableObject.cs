@@ -1,14 +1,21 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+
+[Serializable]
+public class PlayerEvent : UnityEvent<GameObject> { }
 
 public class InspectableObject : MonoBehaviour{
     [SerializeField]
     private GameObject helpObject;
+    [SerializeField]
+    public PlayerEvent OnClose;
 
     public void Close()
     {
-        gameObject.SetActive(false);
+        OnClose.Invoke(gameObject);
     }
 
     public virtual void Help()

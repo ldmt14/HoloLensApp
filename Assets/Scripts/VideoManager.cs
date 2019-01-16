@@ -42,6 +42,7 @@ public class VideoManager : MonoBehaviour {
         if (lastFocusedVideo != null && lastFocusedVideo.enabled)
         {
             lastFocusedVideo.Stop();
+            lastFocusedVideo.gameObject.SetActive(false);
         }
     }
 }

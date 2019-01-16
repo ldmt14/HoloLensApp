@@ -30,4 +30,16 @@ public class CustomVideoPlayer : MonoBehaviour {
     {
         videoPlayerComponent.Pause();
     }
+
+    public void OnSelect()
+    {
+        if (videoPlayerComponent.isPlaying)
+        {
+            videoPlayerComponent.Pause();
+        }
+        else
+        {
+            videoPlayerComponent.Play();
+        }
+    }
 }

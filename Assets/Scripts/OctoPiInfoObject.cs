@@ -9,7 +9,7 @@ namespace OctoPi
         public TemperatureUI TemperatureBar;
         public Text FileNameText;
         [SerializeField]
-        private GameObject parentOfObjectPrinted;
+        private GameObject parentOfPrintedObject;
         internal GameObject ObjectPrinted;
 
         public void UpdateObjectPrinted(GameObject newObject)
@@ -19,7 +19,7 @@ namespace OctoPi
                 Destroy(ObjectPrinted);
             }
             ObjectPrinted = newObject;
-            newObject.transform.parent = parentOfObjectPrinted.transform;
+            newObject.transform.parent = parentOfPrintedObject.transform;
             newObject.transform.localPosition = new Vector3(0, 0, 0);
         }
     }

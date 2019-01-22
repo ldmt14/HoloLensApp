@@ -455,7 +455,7 @@ MonoBehaviour:
   ProgressBar: {fileID: 114061261423765088}
   TemperatureBar: {fileID: 114869411264566538}
   FileNameText: {fileID: 114939723146326000}
-  parentOfObjectPrinted: {fileID: 0}
+  parentOfPrintedObject: {fileID: 0}
 --- !u!114 &114498713460267374
 MonoBehaviour:
   m_ObjectHideFlags: 1

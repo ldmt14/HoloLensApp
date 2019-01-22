@@ -39,9 +39,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4472504115308950}
   - component: {fileID: 114733141819359140}
-  - component: {fileID: 114046854645675624}
   - component: {fileID: 33727667989119818}
   - component: {fileID: 23611598502566106}
+  - component: {fileID: 114333628943297432}
   m_Layer: 0
   m_Name: MarkerController
   m_TagString: Untagged
@@ -153,36 +153,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1543803816382278}
   m_Mesh: {fileID: 0}
---- !u!114 &114046854645675624
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1543803816382278}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1881939161, guid: bab6fa851cf5a1a4bba3cec5f191cb8e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mTrackableName: Chateau
-  mPreserveChildSize: 0
-  mInitializedInEditor: 1
-  mDataSetPath: Vuforia/HoloLensVumark.xml
-  mExtendedTracking: 0
-  mAspectRatio: 0.00004934122
-  mWidth: 1e+16
-  mHeight: 4.934122e+11
-  mPreviewImage: Assets/Editor/Vuforia/HoloLensVumark/656994280c7b4437bb7d773025c558ff_preview.png
-  mIdType: 1
-  mIdLength: 10
-  mBoundingBox:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 85916
-    height: 42392
-  mOrigin: {x: 3715, y: 3241}
-  mTrackingFromRuntimeAppearance: 0
 --- !u!114 &114088569531320786
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -254,6 +224,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fcbd19a2e6808b42ada4d92b130dd8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114333628943297432
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1543803816382278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1881939161, guid: bab6fa851cf5a1a4bba3cec5f191cb8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mTrackableName: Chateau
+  mPreserveChildSize: 0
+  mInitializedInEditor: 1
+  mDataSetPath: Vuforia/HoloLensVumark.xml
+  mExtendedTracking: 0
+  mAspectRatio: 0.00004934122
+  mWidth: 1e+16
+  mHeight: 4.934122e+11
+  mPreviewImage: Assets/Editor/Vuforia/HoloLensVumark/656994280c7b4437bb7d773025c558ff_preview.png
+  mIdType: 1
+  mIdLength: 10
+  mBoundingBox:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 85916
+    height: 42392
+  mOrigin: {x: 3715, y: 3241}
+  mTrackingFromRuntimeAppearance: 0
 --- !u!114 &114392175692825766
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -15,7 +15,6 @@ public class InstructionEditor : EditorWindow {
     private bool includeOctoPiData = false;
     private GameObject octoPiInfoObject;
     private string vuMarkId;
-    private VuMarkBehaviour vuMarkScript;
 
     private Action todo = null;
 
@@ -155,11 +154,6 @@ public class InstructionEditor : EditorWindow {
         var prefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Instruction.prefab");
         instructionObject = Instantiate(prefab);
         instructionObject.name = objectName;
-        vuMarkScript = instructionObject.GetComponent<VuMarkBehaviour>();
-        if (vuMarkScript == null)
-        {
-            vuMarkScript = instructionObject.AddComponent<VuMarkBehaviour>();
-        }
     }
 
     private void OnDestroy()

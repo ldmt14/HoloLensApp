@@ -902,7 +902,7 @@ MonoBehaviour:
   m_Script: {fileID: -1826476478, guid: bab6fa851cf5a1a4bba3cec5f191cb8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mWorldCenterMode: 1
+  mWorldCenterMode: 2
   mWorldCenter: {fileID: 0}
 --- !u!81 &1100922852
 AudioListener:
@@ -1171,25 +1171,21 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 23611598502566106, guid: 7a9dc7d885795ab448bb194eb57efc96,
-        type: 2}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 541051098}
-    - target: {fileID: 33727667989119818, guid: 7a9dc7d885795ab448bb194eb57efc96,
-        type: 2}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 859445604}
     - target: {fileID: 114733141819359140, guid: 7a9dc7d885795ab448bb194eb57efc96,
         type: 2}
       propertyPath: Holograms.Array.data[0].Hologram
       value: 
       objectReference: {fileID: 1672085110}
-    - target: {fileID: 1543803816382278, guid: 7a9dc7d885795ab448bb194eb57efc96, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
+    - target: {fileID: 33727667989119818, guid: 7a9dc7d885795ab448bb194eb57efc96,
+        type: 2}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 859445604}
+    - target: {fileID: 23611598502566106, guid: 7a9dc7d885795ab448bb194eb57efc96,
+        type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 541051098}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7a9dc7d885795ab448bb194eb57efc96, type: 2}
   m_IsPrefabParent: 0

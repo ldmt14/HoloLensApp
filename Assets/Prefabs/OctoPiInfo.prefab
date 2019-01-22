@@ -349,6 +349,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   helpObject: {fileID: 0}
+  OnClose:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: PlayerEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &114238579155978936
 MonoBehaviour:
   m_ObjectHideFlags: 1

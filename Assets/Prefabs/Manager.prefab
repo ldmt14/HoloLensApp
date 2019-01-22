@@ -38,9 +38,10 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4472504115308950}
-  - component: {fileID: 114472420022230122}
-  - component: {fileID: 114822953309270010}
-  - component: {fileID: 114654914602431280}
+  - component: {fileID: 114733141819359140}
+  - component: {fileID: 114046854645675624}
+  - component: {fileID: 33727667989119818}
+  - component: {fileID: 23611598502566106}
   m_Layer: 0
   m_Name: MarkerController
   m_TagString: Untagged
@@ -62,6 +63,7 @@ GameObject:
   - component: {fileID: 114418187385512598}
   - component: {fileID: 114651998858494838}
   - component: {fileID: 114413837901679132}
+  - component: {fileID: 114307792802006994}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -90,7 +92,7 @@ Transform:
   m_GameObject: {fileID: 1543803816382278}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1e+16, y: 1e+16, z: 1e+16}
   m_Children: []
   m_Father: {fileID: 4721383612904482}
   m_RootOrder: 1
@@ -110,6 +112,77 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!23 &23611598502566106
+MeshRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1543803816382278}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_Materials:
+  - {fileID: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &33727667989119818
+MeshFilter:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1543803816382278}
+  m_Mesh: {fileID: 0}
+--- !u!114 &114046854645675624
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1543803816382278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1881939161, guid: bab6fa851cf5a1a4bba3cec5f191cb8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mTrackableName: Chateau
+  mPreserveChildSize: 0
+  mInitializedInEditor: 1
+  mDataSetPath: Vuforia/HoloLensVumark.xml
+  mExtendedTracking: 0
+  mAspectRatio: 0.00004934122
+  mWidth: 1e+16
+  mHeight: 4.934122e+11
+  mPreviewImage: Assets/Editor/Vuforia/HoloLensVumark/656994280c7b4437bb7d773025c558ff_preview.png
+  mIdType: 1
+  mIdLength: 10
+  mBoundingBox:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 85916
+    height: 42392
+  mOrigin: {x: 3715, y: 3241}
+  mTrackingFromRuntimeAppearance: 0
 --- !u!114 &114088569531320786
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -170,6 +243,17 @@ MonoBehaviour:
   m_InputActionsPerSecond: 10
   m_RepeatDelay: 0.5
   m_ForceModuleActive: 0
+--- !u!114 &114307792802006994
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1990316949847664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fcbd19a2e6808b42ada4d92b130dd8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114392175692825766
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -206,32 +290,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18234f1f563bf0f4091b1f034645ae78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114472420022230122
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1543803816382278}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c0d4b15c3c1ffa439eb1f8fd0af4012, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  status: 0
-  frameWidth: 0
-  frameHeight: 0
-  useCameraParamFile: 1
-  cameraParam: hololens896x504.dat
-  threshold: 100
-  borderSize: 0.25
-  thresholdMode: 0
-  labelingMode: 1
-  patternDetectionMode: 0
-  matrixCodeType: 3
-  imageProcMode: 0
-  showOptions: 0
-  trackFPS: {fileID: 0}
-  renderFPS: {fileID: 0}
 --- !u!114 &114490731028984766
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -254,7 +312,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c26883758c14e244af02ff2913dece5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114654914602431280
+--- !u!114 &114733141819359140
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -262,13 +320,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1543803816382278}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34a575b7e37d4564bb4fcce0c1fce3e9, type: 3}
+  m_Script: {fileID: 11500000, guid: a99de04a941316a4e959f54aa0b3102c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  videoPreview: 1
-  previewPlane: {fileID: 0}
-  videoFPS: {fileID: 0}
-  videoParameter: 0
+  Holograms:
+  - VuforiaId: 1234567890
+    Hologram: {fileID: 0}
 --- !u!114 &114749715543312332
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -280,67 +337,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32b95ba129c5c7342be84caee42f3f84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114822953309270010
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1543803816382278}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f89a463325cfdd4d9d07d48395e8eb4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 0
-  showOptions: 0
-  oFiltered: 0
-  oSampleRate: 30
-  oCutOffFreq: 15
-  singleFileName: hiro.patt
-  singleBarcodeID: 0
-  singleWidth: 80
-  oUseContPoseEst: 1
-  oConfCutOff: 0.5
-  multiFileName: multi-barcode-4x3.dat
-  oMinSubMarkers: 0
-  oMinConfSubMatrix: 0.5
-  oMinConfSubPattern: 0.5
-  target: {fileID: 0}
-  anchoredToWorld: 1
-  applyRotation: 1
-  applyTranslation: 1
-  magicMatrix1:
-    e00: 1
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 1
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 1
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 1
-  magicMatrix2:
-    e00: 1
-    e01: 0
-    e02: 0
-    e03: 0
-    e10: 0
-    e11: 1
-    e12: 0
-    e13: 0
-    e20: 0
-    e21: 0
-    e22: 1
-    e23: 0
-    e30: 0
-    e31: 0
-    e32: 0
-    e33: 1
-  performMagicFunction: 0

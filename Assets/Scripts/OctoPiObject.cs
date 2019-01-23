@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 #if WINDOWS_UWP
 using Windows.Storage;
 #endif
@@ -70,6 +71,12 @@ namespace OctoPi
                         Mesh holderMesh = new Mesh();
                         ObjImporter newMesh = new ObjImporter();
                         holderMesh = newMesh.ImportFile(objStoragePath);
+                        List<Color> colors = new List<Color>();
+                        foreach (var vertex in holderMesh.vertices)
+                        {
+                            colors.Add(Color.blue);
+                        }
+                        holderMesh.SetColors(colors);
 
                         GameObject cube = new GameObject();
 

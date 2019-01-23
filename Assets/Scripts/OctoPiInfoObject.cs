@@ -22,5 +22,15 @@ namespace OctoPi
             newObject.transform.parent = parentOfPrintedObject.transform;
             newObject.transform.localPosition = new Vector3(0, 0, 0);
         }
+
+        public void OnDisable()
+        {
+            ObjectPrinted.SetActive(false);
+        }
+
+        public void OnEnable()
+        {
+            ObjectPrinted.SetActive(true);
+        }
     }
 }

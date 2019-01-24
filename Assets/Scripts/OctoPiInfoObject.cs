@@ -10,9 +10,18 @@ namespace OctoPi
         public Text FileNameText;
         [SerializeField]
         internal GameObject PrintedObject;
+        [SerializeField]
+        [Tooltip("If set to true the printed object will be set to match the size specified in the .stl-File. Otherwise it will be set to fit inside a sphere with the radius of the \"scale factor\".")]
+        private bool displayObjectInRealSize = true;
+        [SerializeField]
+        [Tooltip("Sets the scale of the printed object. If the .stl-File contains coordinates in millimeters this should be set to 0.001.")]
+        private float scaleFactor = 0.001f;
 
         public void UpdateObjectPrinted(Mesh mesh)
         {
+            float localScale = displayObjectInRealSize ? scaleFactor : (scaleFactor / mesh.bounds.max.magnitude);
+            PrintedObject.transform.localPosition = -mesh.bounds.center * localScale;
+            PrintedObject.transform.localScale = new Vector3(localScale, localScale, localScale);
             MeshRenderer renderer = PrintedObject.GetComponent<MeshRenderer>();
             if (renderer == null)
             {

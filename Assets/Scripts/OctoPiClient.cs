@@ -64,7 +64,6 @@ namespace OctoPi
             } else
             {
                 var json = System.Text.Encoding.ASCII.GetString(request.downloadHandler.data);
-                Debug.Log("File Information recieved: " + json);
                 FileInformation result = JsonConvert.DeserializeObject<FileInformation>(json);
                 callback.Invoke(true, result);
             }

@@ -9,28 +9,31 @@ namespace OctoPi
         public TemperatureUI TemperatureBar;
         public Text FileNameText;
         [SerializeField]
-        private GameObject parentOfPrintedObject;
-        internal GameObject ObjectPrinted;
+        internal GameObject PrintedObject;
 
-        public void UpdateObjectPrinted(GameObject newObject)
+        public void UpdateObjectPrinted(Mesh mesh)
         {
-            if (ObjectPrinted != null)
+            MeshRenderer renderer = PrintedObject.GetComponent<MeshRenderer>();
+            if (renderer == null)
             {
-                Destroy(ObjectPrinted);
+                renderer = PrintedObject.AddComponent<MeshRenderer>();
             }
-            ObjectPrinted = newObject;
-            newObject.transform.parent = parentOfPrintedObject.transform;
-            newObject.transform.localPosition = new Vector3(0, 0, 0);
+            MeshFilter filter = PrintedObject.GetComponent<MeshFilter>();
+            if (filter == null)
+            {
+                filter = PrintedObject.AddComponent<MeshFilter>();
+            }
+            filter.mesh = mesh;
         }
 
         public void OnDisable()
         {
-            ObjectPrinted.SetActive(false);
+            PrintedObject.SetActive(false);
         }
 
         public void OnEnable()
         {
-            ObjectPrinted.SetActive(true);
+            PrintedObject.SetActive(true);
         }
     }
 }

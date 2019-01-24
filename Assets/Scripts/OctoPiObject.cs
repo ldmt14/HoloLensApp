@@ -43,7 +43,7 @@ namespace OctoPi
         {
             if (!jobInformationSuccess) return;
             octoPiInfo.ProgressBar.value = response.progress.completion * octoPiInfo.ProgressBar.maxValue;
-            if (octoPiInfo.ObjectPrinted != null && octoPiInfo.FileNameText.text.Equals(response.job.file.name))
+            if (octoPiInfo.PrintedObject != null && octoPiInfo.FileNameText.text.Equals(response.job.file.name))
             {
                 return;
             }
@@ -71,20 +71,7 @@ namespace OctoPi
                         Mesh holderMesh = new Mesh();
                         ObjImporter newMesh = new ObjImporter();
                         holderMesh = newMesh.ImportFile(objStoragePath);
-                        List<Color> colors = new List<Color>();
-                        foreach (var vertex in holderMesh.vertices)
-                        {
-                            colors.Add(Color.blue);
-                        }
-                        holderMesh.SetColors(colors);
-
-                        GameObject cube = new GameObject();
-
-                        MeshRenderer renderer = cube.AddComponent<MeshRenderer>();
-                        MeshFilter filter = cube.AddComponent<MeshFilter>();
-                        filter.mesh = holderMesh;
-                        cube.transform.localScale = 0.01f * cube.transform.localScale;
-                        octoPiInfo.UpdateObjectPrinted(cube);
+                        octoPiInfo.UpdateObjectPrinted(holderMesh);
                     });
 #endif
                 }

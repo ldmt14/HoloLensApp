@@ -83,7 +83,7 @@ namespace OctoPi
 {
   ""job"": {
     ""file"": {
-      ""name"": ""20mm_cube.gco"",
+      ""name"": ""2m_cube.gco"",
       ""origin"": ""local"",
       ""size"": 1468987,
       ""date"": 1378847754

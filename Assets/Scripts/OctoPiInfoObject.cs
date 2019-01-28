@@ -16,11 +16,20 @@ namespace OctoPi
         [SerializeField]
         [Tooltip("Sets the scale of the printed object. If the .stl-File contains coordinates in millimeters this should be set to 0.001.")]
         private float scaleFactor = 0.001f;
+        private Vector3 positionOfPrintedObject;
+
+        public void Start()
+        {
+            if (PrintedObject != null)
+            {
+                positionOfPrintedObject = PrintedObject.transform.localPosition;
+            }
+        }
 
         public void UpdateObjectPrinted(Mesh mesh)
         {
             float localScale = displayObjectInRealSize ? scaleFactor : (scaleFactor / mesh.bounds.max.magnitude);
-            PrintedObject.transform.localPosition = new Vector3(-mesh.bounds.center.x, mesh.bounds.size.y, -mesh.bounds.center.z) * localScale;
+            PrintedObject.transform.localPosition = positionOfPrintedObject + (new Vector3(-mesh.bounds.center.x, mesh.bounds.size.y, -mesh.bounds.center.z) * localScale);
             PrintedObject.transform.localScale = new Vector3(localScale, localScale, localScale);
             MeshRenderer renderer = PrintedObject.GetComponent<MeshRenderer>();
             if (renderer == null)

@@ -60,20 +60,16 @@ namespace OctoPi
             {
                 if (fileInformationSuccess)
                 {
-#if WINDOWS_UWP
-                    string stlStoragePath = KnownFolders.Objects3D.Path + "/" + stlFileName;
-                    string objStoragePath = KnownFolders.Objects3D.Path + "/" + objFileName;
-                    OctoPiClient.GetAndStoreFile(fileInfo.refs.download, stlStoragePath, (getAndStoreSuccess) =>
+                    OctoPiClient.GetFile(fileInfo.refs.download, (getAndStoreSuccess, text) =>
                     {
                         if (!getAndStoreSuccess) return;
-                        StlConverter.Converter.Convert(stlStoragePath, objStoragePath);
+                        string objText = StlConverter.Converter.ConvertStlText(text);
 
                         Mesh holderMesh = new Mesh();
                         ObjImporter newMesh = new ObjImporter();
-                        holderMesh = newMesh.ImportFile(objStoragePath);
+                        holderMesh = newMesh.ImportFileFromText(objFileName, objText);
                         octoPiInfo.UpdateObjectPrinted(holderMesh);
                     });
-#endif
                 }
             });
         }

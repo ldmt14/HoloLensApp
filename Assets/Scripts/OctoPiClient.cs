@@ -12,6 +12,7 @@ namespace OctoPi
     public delegate void JobInformationCallback(bool success, JobInformationResponse response);
     public delegate void StateInformationCallback(bool success, FullStateResponse response);
     public delegate void FileInformationCallback(bool success, FileInformation response);
+    public delegate void FileDownloadCallback(bool success, byte[] FileText);
 
     public class OctoPiClient : MonoBehaviour
     {
@@ -29,22 +30,21 @@ namespace OctoPi
 
         }
 
-        public static void GetAndStoreFile(string download, string storagePath, Action<bool> callback)
+        public static void GetFile(string download, FileDownloadCallback callback)
         {
-            Instance.StartCoroutine(GetAndStoreFileInternal(download, storagePath, callback));
+            Instance.StartCoroutine(GetFileInternal(download, callback));
         }
 
-        private static IEnumerator GetAndStoreFileInternal(string download, string storagePath, Action<bool> callback)
+        private static IEnumerator GetFileInternal(string download, FileDownloadCallback callback)
         {
             UnityWebRequest request = UnityWebRequest.Get(download);
             yield return request.SendWebRequest();
             if (request.isNetworkError || request.isHttpError)
             {
-                callback.Invoke(false);
+                callback.Invoke(false, null);
             } else
             {
-                System.IO.File.WriteAllBytes(storagePath, request.downloadHandler.data);
-                callback.Invoke(true);
+                callback.Invoke(true, request.downloadHandler.data);
             }
         }
 

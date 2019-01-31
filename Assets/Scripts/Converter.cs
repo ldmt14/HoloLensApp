@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
+using System.Text;
 
 namespace StlConverter
 {
@@ -50,14 +50,14 @@ namespace StlConverter
 
     public class Converter
     {
-        public static void Convert(string inputPath, string outputPath)
+        public static string ConvertStlText(byte[] text)
         {
-            byte[] fileAsBytes = System.IO.File.ReadAllBytes(inputPath);
             bool isTextFormat;
-            if (fileAsBytes.Length >= 5 && fileAsBytes[0] == 's' && fileAsBytes[1] == 'o' && fileAsBytes[2] == 'l' && fileAsBytes[3] == 'i' && fileAsBytes[4] == 'd')
+            if (text.Length >= 5 && text[0] == 's' && text[1] == 'o' && text[2] == 'l' && text[3] == 'i' && text[4] == 'd')
             {
                 isTextFormat = true;
-            } else
+            }
+            else
             {
                 isTextFormat = false;
             }
@@ -70,7 +70,7 @@ namespace StlConverter
             Point currentPoint = new Point();
             if (isTextFormat)
             {
-                string[] inputFile = System.Text.Encoding.ASCII.GetString(fileAsBytes).Split(new char[] { ' ', '\n', '\t', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+                string[] inputFile = Encoding.ASCII.GetString(text).Split(new char[] { ' ', '\n', '\t', '\r' }, StringSplitOptions.RemoveEmptyEntries);
                 State state = State.DEFAULT;
                 name = inputFile[1];
                 for (int i = 1; i < inputFile.Count();)
@@ -270,31 +270,31 @@ namespace StlConverter
             }
             else
             {
-                if (fileAsBytes.Length < 84)
+                if (text.Length < 84)
                 {
                     throw new FormatException("Unexpected end of file. A binary stl-File must be at least 84 bytes in size");
                 }
-                int numberOfTriangles = BitConverter.ToInt32(fileAsBytes, 80);
-                if (fileAsBytes.Length < 82 + numberOfTriangles * 50)
+                int numberOfTriangles = BitConverter.ToInt32(text, 80);
+                if (text.Length < 82 + numberOfTriangles * 50)
                 {
-                    throw new FormatException("Expected size of File: " + (82 + numberOfTriangles * 50) + " bytes, but is: " + fileAsBytes.Length + " bytes");
+                    throw new FormatException("Expected size of File: " + (82 + numberOfTriangles * 50) + " bytes, but is: " + text.Length + " bytes");
                 }
                 for (int i = 0, currentByte = 84; i < numberOfTriangles; i++, currentByte += 50)
                 {
                     Point n, v1, v2, v3;
                     Triangle t;
-                    n.X = BitConverter.ToSingle(fileAsBytes, currentByte);
-                    n.Y = BitConverter.ToSingle(fileAsBytes, currentByte + 4);
-                    n.Z = BitConverter.ToSingle(fileAsBytes, currentByte + 8);
-                    v1.X = BitConverter.ToSingle(fileAsBytes, currentByte + 12);
-                    v1.Y = BitConverter.ToSingle(fileAsBytes, currentByte + 16);
-                    v1.Z = BitConverter.ToSingle(fileAsBytes, currentByte + 20);
-                    v2.X = BitConverter.ToSingle(fileAsBytes, currentByte + 24);
-                    v2.Y = BitConverter.ToSingle(fileAsBytes, currentByte + 28);
-                    v2.Z = BitConverter.ToSingle(fileAsBytes, currentByte + 32);
-                    v3.X = BitConverter.ToSingle(fileAsBytes, currentByte + 36);
-                    v3.Y = BitConverter.ToSingle(fileAsBytes, currentByte + 40);
-                    v3.Z = BitConverter.ToSingle(fileAsBytes, currentByte + 44);
+                    n.X = BitConverter.ToSingle(text, currentByte);
+                    n.Y = BitConverter.ToSingle(text, currentByte + 4);
+                    n.Z = BitConverter.ToSingle(text, currentByte + 8);
+                    v1.X = BitConverter.ToSingle(text, currentByte + 12);
+                    v1.Y = BitConverter.ToSingle(text, currentByte + 16);
+                    v1.Z = BitConverter.ToSingle(text, currentByte + 20);
+                    v2.X = BitConverter.ToSingle(text, currentByte + 24);
+                    v2.Y = BitConverter.ToSingle(text, currentByte + 28);
+                    v2.Z = BitConverter.ToSingle(text, currentByte + 32);
+                    v3.X = BitConverter.ToSingle(text, currentByte + 36);
+                    v3.Y = BitConverter.ToSingle(text, currentByte + 40);
+                    v3.Z = BitConverter.ToSingle(text, currentByte + 44);
                     t.Normal = vertices.IndexOf(n);
                     if (t.Normal < 0)
                     {
@@ -322,21 +322,27 @@ namespace StlConverter
                     triangles.Add(t);
                 }
             }
-            List<string> outputFile = new List<string>(1 + vertices.Count() + normals.Count() + triangles.Count());
-            outputFile.Add("o " + name);
+            StringBuilder outputString = new StringBuilder();
+            outputString.Append("o " + name);
             for (int i = 0; i < vertices.Count(); i++)
             {
-                outputFile.Add(string.Format("v {0} {1} {2}", vertices[i].X, vertices[i].Y, vertices[i].Z));
+                outputString.Append(string.Format("v {0} {1} {2}", vertices[i].X, vertices[i].Y, vertices[i].Z));
             }
             for (int i = 0; i < normals.Count(); i++)
             {
-                outputFile.Add(string.Format("vn {0} {1} {2}", normals[i].X, normals[i].Y, normals[i].Z));
+                outputString.Append(string.Format("vn {0} {1} {2}", normals[i].X, normals[i].Y, normals[i].Z));
             }
             for (int i = 0; i < triangles.Count(); i++)
             {
-                outputFile.Add(string.Format("f {0}//{3} {1}//{3} {2}//{3}", triangles[i].V1 + 1, triangles[i].V2 + 1, triangles[i].V3 + 1, triangles[i].Normal + 1));
+                outputString.Append(string.Format("f {0}//{3} {1}//{3} {2}//{3}", triangles[i].V1 + 1, triangles[i].V2 + 1, triangles[i].V3 + 1, triangles[i].Normal + 1));
             }
-            System.IO.File.WriteAllLines(outputPath, outputFile);
+            return outputString.ToString();
+        }
+
+        public static void ConvertFile(string inputPath, string outputPath)
+        {
+            byte[] fileAsBytes = System.IO.File.ReadAllBytes(inputPath);
+            System.IO.File.WriteAllText(outputPath, ConvertStlText(fileAsBytes));
         }
     }
 }

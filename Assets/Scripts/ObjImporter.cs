@@ -27,10 +27,16 @@ public class ObjImporter
         public string fileName;
     }
 
-    // Use this for initialization
     public Mesh ImportFile(string filePath)
     {
-        meshStruct newMesh = createMeshStruct(filePath);
+        string entireText = File.ReadAllText(filePath);
+        return ImportFileFromText(filePath, entireText);
+    }
+
+    // Use this for initialization
+    public Mesh ImportFileFromText(string fileName, string entireText)
+    {
+        meshStruct newMesh = createMeshStruct(fileName, entireText);
         populateMeshStruct(ref newMesh);
 
         Vector3[] newVerts = new Vector3[newMesh.faceData.Length];
@@ -63,7 +69,7 @@ public class ObjImporter
         return mesh;
     }
 
-    private static meshStruct createMeshStruct(string filename)
+    private static meshStruct createMeshStruct(string filename, string entireText)
     {
         int triangles = 0;
         int vertices = 0;
@@ -72,7 +78,6 @@ public class ObjImporter
         int face = 0;
         meshStruct mesh = new meshStruct();
         mesh.fileName = filename;
-        string entireText = File.ReadAllText(filename);
         using (StringReader reader = new StringReader(entireText))
         {
             string currentText = reader.ReadLine();

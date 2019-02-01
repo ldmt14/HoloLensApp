@@ -10,6 +10,7 @@ sysinfo.txt
 *.stackdump
 /Assets/AssetStoreTools*
 *.apk
+*.unitypackage.meta
 *.unitypackage
  
 # ===================================== #

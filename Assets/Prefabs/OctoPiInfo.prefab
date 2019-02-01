@@ -23,6 +23,8 @@ GameObject:
   - component: {fileID: 114355378519417326}
   - component: {fileID: 114825293469042880}
   - component: {fileID: 114376451048743394}
+  - component: {fileID: 65519303628591282}
+  - component: {fileID: 114147872695533296}
   m_Layer: 0
   m_Name: OctoPiInfo
   m_TagString: Untagged
@@ -264,6 +266,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!65 &65519303628591282
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1011425640081874}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 500, y: 500, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &114061261423765088
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -323,6 +337,22 @@ MonoBehaviour:
         m_CallState: 1
     m_TypeName: UnityEngine.UI.Slider+SliderEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114147872695533296
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1011425640081874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07e476ca816520f4f929c18a66f4b11e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  helpObject: {fileID: 0}
+  OnClose:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: PlayerEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &114238579155978936
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -423,8 +453,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ProgressBar: {fileID: 114061261423765088}
-  TemperatureBar: {fileID: 0}
+  TemperatureBar: {fileID: 114869411264566538}
   FileNameText: {fileID: 114939723146326000}
+  PrintedObject: {fileID: 0}
+  displayObjectInRealSize: 1
+  scaleFactor: 0.001
 --- !u!114 &114498713460267374
 MonoBehaviour:
   m_ObjectHideFlags: 1

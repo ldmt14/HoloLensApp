@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace StlConverter
 {
@@ -17,7 +18,7 @@ namespace StlConverter
 
     struct Point
     {
-        public double X, Y, Z;
+        public float X, Y, Z;
 
         public override bool Equals(object obj)
         {
@@ -49,17 +50,27 @@ namespace StlConverter
 
     public class Converter
     {
-        public static void Convert(string inputPath, string outputPath)
+        public static string ConvertStlText(byte[] text)
         {
-            string[] inputFile = System.IO.File.ReadAllText(inputPath).Split(new char[] { ' ', '\n', '\t', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+            bool isTextFormat;
+            if (text.Length >= 5 && text[0] == 's' && text[1] == 'o' && text[2] == 'l' && text[3] == 'i' && text[4] == 'd')
+            {
+                isTextFormat = true;
+            }
+            else
+            {
+                isTextFormat = false;
+            }
+            //string[] inputFile = System.IO.File.ReadAllText(inputPath).Split(new char[] { ' ', '\n', '\t', '\r' }, StringSplitOptions.RemoveEmptyEntries);
             List<Point> vertices = new List<Point>();
             List<Point> normals = new List<Point>();
             List<Triangle> triangles = new List<Triangle>();
             string name = "";
             Triangle currentTriangle = new Triangle();
             Point currentPoint = new Point();
-            if (inputFile[0].Equals("solid"))
+            if (isTextFormat)
             {
+                string[] inputFile = Encoding.ASCII.GetString(text).Split(new char[] { ' ', '\n', '\t', '\r' }, StringSplitOptions.RemoveEmptyEntries);
                 State state = State.DEFAULT;
                 name = inputFile[1];
                 for (int i = 1; i < inputFile.Count();)
@@ -69,7 +80,7 @@ namespace StlConverter
                         case State.DEFAULT:
                             if (++i >= inputFile.Count())
                             {
-                                throw new FormatException("Unexpected end of File");
+                                throw new FormatException("Unexpected end of file");
                             }
                             if (inputFile[i].Equals("endsolid"))
                             {
@@ -82,7 +93,7 @@ namespace StlConverter
                             }
                             if (++i >= inputFile.Count())
                             {
-                                throw new FormatException("Unexpected end of File");
+                                throw new FormatException("Unexpected end of file");
                             }
                             if (!inputFile[i].Equals("normal"))
                             {
@@ -90,19 +101,19 @@ namespace StlConverter
                             }
                             if (++i >= inputFile.Count())
                             {
-                                throw new FormatException("Unexpected end of File");
+                                throw new FormatException("Unexpected end of file");
                             }
-                            currentPoint.X = double.Parse(inputFile[i]);
+                            currentPoint.X = float.Parse(inputFile[i]);
                             if (++i >= inputFile.Count())
                             {
-                                throw new FormatException("Unexpected end of File");
+                                throw new FormatException("Unexpected end of file");
                             }
-                            currentPoint.Y = double.Parse(inputFile[i]);
+                            currentPoint.Y = float.Parse(inputFile[i]);
                             if (++i >= inputFile.Count())
                             {
-                                throw new FormatException("Unexpected end of File");
+                                throw new FormatException("Unexpected end of file");
                             }
-                            currentPoint.Z = double.Parse(inputFile[i]);
+                            currentPoint.Z = float.Parse(inputFile[i]);
                             currentTriangle.Normal = normals.IndexOf(currentPoint);
                             if (currentTriangle.Normal < 0)
                             {
@@ -115,7 +126,7 @@ namespace StlConverter
                         case State.OUTERLOOP:
                             if (++i >= inputFile.Count())
                             {
-                                throw new FormatException("Unexpected end of File");
+                                throw new FormatException("Unexpected end of fFile");
                             }
                             if (!inputFile[i].Equals("outer"))
                             {
@@ -123,7 +134,7 @@ namespace StlConverter
                             }
                             if (++i >= inputFile.Count())
                             {
-                                throw new FormatException("Unexpected end of File");
+                                throw new FormatException("Unexpected end of file");
                             }
                             if (!inputFile[i].Equals("loop"))
                             {
@@ -134,7 +145,7 @@ namespace StlConverter
                         case State.V1:
                             if (++i >= inputFile.Count())
                             {
-                                throw new FormatException("Unexpected end of File");
+                                throw new FormatException("Unexpected end of file");
                             }
                             if (!inputFile[i].Equals("vertex"))
                             {
@@ -142,19 +153,19 @@ namespace StlConverter
                             }
                             if (++i >= inputFile.Count())
                             {
-                                throw new FormatException("Unexpected end of File");
+                                throw new FormatException("Unexpected end of file");
                             }
-                            currentPoint.X = double.Parse(inputFile[i]);
+                            currentPoint.X = float.Parse(inputFile[i]);
                             if (++i >= inputFile.Count())
                             {
-                                throw new FormatException("Unexpected end of File");
+                                throw new FormatException("Unexpected end of file");
                             }
-                            currentPoint.Y = double.Parse(inputFile[i]);
+                            currentPoint.Y = float.Parse(inputFile[i]);
                             if (++i >= inputFile.Count())
                             {
-                                throw new FormatException("Unexpected end of File");
+                                throw new FormatException("Unexpected end of file");
                             }
-                            currentPoint.Z = double.Parse(inputFile[i]);
+                            currentPoint.Z = float.Parse(inputFile[i]);
                             currentTriangle.V1 = vertices.IndexOf(currentPoint);
                             if (currentTriangle.V1 < 0)
                             {
@@ -167,7 +178,7 @@ namespace StlConverter
                         case State.V2:
                             if (++i >= inputFile.Count())
                             {
-                                throw new FormatException("Unexpected end of File");
+                                throw new FormatException("Unexpected end of file");
                             }
                             if (!inputFile[i].Equals("vertex"))
                             {
@@ -175,19 +186,19 @@ namespace StlConverter
                             }
                             if (++i >= inputFile.Count())
                             {
-                                throw new FormatException("Unexpected end of File");
+                                throw new FormatException("Unexpected end of file");
                             }
-                            currentPoint.X = double.Parse(inputFile[i]);
+                            currentPoint.X = float.Parse(inputFile[i]);
                             if (++i >= inputFile.Count())
                             {
-                                throw new FormatException("Unexpected end of File");
+                                throw new FormatException("Unexpected end of file");
                             }
-                            currentPoint.Y = double.Parse(inputFile[i]);
+                            currentPoint.Y = float.Parse(inputFile[i]);
                             if (++i >= inputFile.Count())
                             {
-                                throw new FormatException("Unexpected end of File");
+                                throw new FormatException("Unexpected end of file");
                             }
-                            currentPoint.Z = double.Parse(inputFile[i]);
+                            currentPoint.Z = float.Parse(inputFile[i]);
                             currentTriangle.V2 = vertices.IndexOf(currentPoint);
                             if (currentTriangle.V2 < 0)
                             {
@@ -200,7 +211,7 @@ namespace StlConverter
                         case State.V3:
                             if (++i >= inputFile.Count())
                             {
-                                throw new FormatException("Unexpected end of File");
+                                throw new FormatException("Unexpected end of file");
                             }
                             if (!inputFile[i].Equals("vertex"))
                             {
@@ -208,19 +219,19 @@ namespace StlConverter
                             }
                             if (++i >= inputFile.Count())
                             {
-                                throw new FormatException("Unexpected end of File");
+                                throw new FormatException("Unexpected end of file");
                             }
-                            currentPoint.X = double.Parse(inputFile[i]);
+                            currentPoint.X = float.Parse(inputFile[i]);
                             if (++i >= inputFile.Count())
                             {
-                                throw new FormatException("Unexpected end of File");
+                                throw new FormatException("Unexpected end of file");
                             }
-                            currentPoint.Y = double.Parse(inputFile[i]);
+                            currentPoint.Y = float.Parse(inputFile[i]);
                             if (++i >= inputFile.Count())
                             {
-                                throw new FormatException("Unexpected end of File");
+                                throw new FormatException("Unexpected end of file");
                             }
-                            currentPoint.Z = double.Parse(inputFile[i]);
+                            currentPoint.Z = float.Parse(inputFile[i]);
                             currentTriangle.V3 = vertices.IndexOf(currentPoint);
                             if (currentTriangle.V3 < 0)
                             {
@@ -233,7 +244,7 @@ namespace StlConverter
                         case State.ENDLOOP:
                             if (++i >= inputFile.Count())
                             {
-                                throw new FormatException("Unexpected end of File");
+                                throw new FormatException("Unexpected end of file");
                             }
                             if (!inputFile[i].Equals("endloop"))
                             {
@@ -244,7 +255,7 @@ namespace StlConverter
                         case State.ENDFACET:
                             if (++i >= inputFile.Count())
                             {
-                                throw new FormatException("Unexpected end of File");
+                                throw new FormatException("Unexpected end of file");
                             }
                             if (!inputFile[i].Equals("endfacet"))
                             {
@@ -257,21 +268,81 @@ namespace StlConverter
                     }
                 }
             }
-            List<string> outputFile = new List<string>(1 + vertices.Count() + normals.Count() + triangles.Count());
-            outputFile.Add("o " + name);
+            else
+            {
+                if (text.Length < 84)
+                {
+                    throw new FormatException("Unexpected end of file. A binary stl-File must be at least 84 bytes in size");
+                }
+                int numberOfTriangles = BitConverter.ToInt32(text, 80);
+                if (text.Length < 82 + numberOfTriangles * 50)
+                {
+                    throw new FormatException("Expected size of File: " + (82 + numberOfTriangles * 50) + " bytes, but is: " + text.Length + " bytes");
+                }
+                for (int i = 0, currentByte = 84; i < numberOfTriangles; i++, currentByte += 50)
+                {
+                    Point n, v1, v2, v3;
+                    Triangle t;
+                    n.X = BitConverter.ToSingle(text, currentByte);
+                    n.Y = BitConverter.ToSingle(text, currentByte + 4);
+                    n.Z = BitConverter.ToSingle(text, currentByte + 8);
+                    v1.X = BitConverter.ToSingle(text, currentByte + 12);
+                    v1.Y = BitConverter.ToSingle(text, currentByte + 16);
+                    v1.Z = BitConverter.ToSingle(text, currentByte + 20);
+                    v2.X = BitConverter.ToSingle(text, currentByte + 24);
+                    v2.Y = BitConverter.ToSingle(text, currentByte + 28);
+                    v2.Z = BitConverter.ToSingle(text, currentByte + 32);
+                    v3.X = BitConverter.ToSingle(text, currentByte + 36);
+                    v3.Y = BitConverter.ToSingle(text, currentByte + 40);
+                    v3.Z = BitConverter.ToSingle(text, currentByte + 44);
+                    t.Normal = vertices.IndexOf(n);
+                    if (t.Normal < 0)
+                    {
+                        t.Normal = vertices.Count;
+                        vertices.Add(n);
+                    }
+                    t.V1 = vertices.IndexOf(v1);
+                    if (t.Normal < 0)
+                    {
+                        t.Normal = vertices.Count;
+                        vertices.Add(v1);
+                    }
+                    t.V2 = vertices.IndexOf(v2);
+                    if (t.Normal < 0)
+                    {
+                        t.Normal = vertices.Count;
+                        vertices.Add(v2);
+                    }
+                    t.V3 = vertices.IndexOf(v3);
+                    if (t.Normal < 0)
+                    {
+                        t.Normal = vertices.Count;
+                        vertices.Add(v3);
+                    }
+                    triangles.Add(t);
+                }
+            }
+            StringBuilder outputString = new StringBuilder();
+            outputString.Append("o " + name);
             for (int i = 0; i < vertices.Count(); i++)
             {
-                outputFile.Add(string.Format("v {0} {1} {2}", vertices[i].X, vertices[i].Y, vertices[i].Z));
+                outputString.Append(string.Format("v {0} {1} {2}", vertices[i].X, vertices[i].Y, vertices[i].Z));
             }
             for (int i = 0; i < normals.Count(); i++)
             {
-                outputFile.Add(string.Format("vn {0} {1} {2}", normals[i].X, normals[i].Y, normals[i].Z));
+                outputString.Append(string.Format("vn {0} {1} {2}", normals[i].X, normals[i].Y, normals[i].Z));
             }
             for (int i = 0; i < triangles.Count(); i++)
             {
-                outputFile.Add(string.Format("f {0}//{3} {1}//{3} {2}//{3}", triangles[i].V1 + 1, triangles[i].V2 + 1, triangles[i].V3 + 1, triangles[i].Normal + 1));
+                outputString.Append(string.Format("f {0}//{3} {1}//{3} {2}//{3}", triangles[i].V1 + 1, triangles[i].V2 + 1, triangles[i].V3 + 1, triangles[i].Normal + 1));
             }
-            System.IO.File.WriteAllLines(outputPath, outputFile);
+            return outputString.ToString();
+        }
+
+        public static void ConvertFile(string inputPath, string outputPath)
+        {
+            byte[] fileAsBytes = System.IO.File.ReadAllBytes(inputPath);
+            System.IO.File.WriteAllText(outputPath, ConvertStlText(fileAsBytes));
         }
     }
 }

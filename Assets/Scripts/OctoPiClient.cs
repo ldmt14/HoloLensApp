@@ -12,11 +12,11 @@ namespace OctoPi
     public delegate void JobInformationCallback(bool success, JobInformationResponse response);
     public delegate void StateInformationCallback(bool success, FullStateResponse response);
     public delegate void FileInformationCallback(bool success, FileInformation response);
+    public delegate void FileDownloadCallback(bool success, byte[] FileText);
 
     public class OctoPiClient : MonoBehaviour
     {
         private static OctoPiClient Instance;
-        public static readonly string domain = "http://10.10.10.13";
         public static readonly string xApiKey = "494F97703CD14F529D919058C1D2360E";
         // Use this for initialization
         void Start()
@@ -30,31 +30,30 @@ namespace OctoPi
 
         }
 
-        public static void GetAndStoreFile(string download, string storagePath, Action<bool> callback)
+        public static void GetFile(string download, FileDownloadCallback callback)
         {
-            Instance.StartCoroutine(GetAndStoreFileInternal(download, storagePath, callback));
+            Instance.StartCoroutine(GetFileInternal(download, callback));
         }
 
-        private static IEnumerator GetAndStoreFileInternal(string download, string storagePath, Action<bool> callback)
+        private static IEnumerator GetFileInternal(string download, FileDownloadCallback callback)
         {
             UnityWebRequest request = UnityWebRequest.Get(download);
             yield return request.SendWebRequest();
             if (request.isNetworkError || request.isHttpError)
             {
-                callback.Invoke(false);
+                callback.Invoke(false, null);
             } else
             {
-                System.IO.File.WriteAllBytes(storagePath, request.downloadHandler.data);
-                callback.Invoke(true);
+                callback.Invoke(true, request.downloadHandler.data);
             }
         }
 
-        public static void GetFileInformation(string location, string path, FileInformationCallback callback)
+        public static void GetFileInformation(string domain, string location, string path, FileInformationCallback callback)
         {
-            Instance.StartCoroutine(GetFileInformationInternal(location, path, callback));
+            Instance.StartCoroutine(GetFileInformationInternal(domain, location, path, callback));
         }
 
-        private static IEnumerator GetFileInformationInternal(string location, string path, FileInformationCallback callback)
+        private static IEnumerator GetFileInformationInternal(string domain, string location, string path, FileInformationCallback callback)
         {
             UnityWebRequest request = UnityWebRequest.Get(domain + "/api/files/" + location + "/" + path);
             request.SetRequestHeader("x-api-key", xApiKey);
@@ -65,18 +64,17 @@ namespace OctoPi
             } else
             {
                 var json = System.Text.Encoding.ASCII.GetString(request.downloadHandler.data);
-                Debug.Log("File Information recieved: " + json);
                 FileInformation result = JsonConvert.DeserializeObject<FileInformation>(json);
                 callback.Invoke(true, result);
             }
         }
 
-        public static void GetJobInformation(JobInformationCallback callback)
+        public static void GetJobInformation(string domain, JobInformationCallback callback)
         {
-            Instance.StartCoroutine(GetJobInformationInternal(callback));
+            Instance.StartCoroutine(GetJobInformationInternal(domain, callback));
         }
 
-        private static IEnumerator GetJobInformationInternal(JobInformationCallback callback)
+        private static IEnumerator GetJobInformationInternal(string domain, JobInformationCallback callback)
         {
             JobInformationResponse result;
 #if LDMT_TESTING
@@ -85,7 +83,7 @@ namespace OctoPi
 {
   ""job"": {
     ""file"": {
-      ""name"": ""20mm_cube.gco"",
+      ""name"": ""BVS.gco"",
       ""origin"": ""local"",
       ""size"": 1468987,
       ""date"": 1378847754
@@ -121,12 +119,12 @@ namespace OctoPi
 #endif
         }
 
-        public static void GetStateInformation(StateInformationCallback callback)
+        public static void GetStateInformation(string domain, StateInformationCallback callback)
         {
-            Instance.StartCoroutine(GetStateInformationInternal(callback));
+            Instance.StartCoroutine(GetStateInformationInternal(domain, callback));
         }
 
-        private static IEnumerator GetStateInformationInternal(StateInformationCallback callback)
+        private static IEnumerator GetStateInformationInternal(string domain, StateInformationCallback callback)
         {
             FullStateResponse result;
 #if LDMT_TESTING

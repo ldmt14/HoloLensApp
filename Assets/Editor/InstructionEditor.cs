@@ -6,14 +6,15 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using Vuforia;
 
 public class InstructionEditor : EditorWindow {
     private GameObject instructionObject;
     private string objectName = "InstructionObject";
-    private AttachToQRCode qrScript;
     private List<InstructionStep> instructionSteps = new List<InstructionStep>();
     private bool includeOctoPiData = false;
     private GameObject octoPiInfoObject;
+    private string vuMarkId;
 
     private Action todo = null;
 
@@ -26,9 +27,7 @@ public class InstructionEditor : EditorWindow {
     internal void OnGUI()
     {
         instructionObject.name = objectName = EditorGUILayout.TextField("Name", objectName);
-        var serialized = new SerializedObject(qrScript);
-        serialized.FindProperty("qRCodeData").stringValue = EditorGUILayout.TextField("QR Code Data", qrScript.QRCodeData);
-        serialized.ApplyModifiedPropertiesWithoutUndo();
+        vuMarkId = EditorGUILayout.TextField("VuMark ID", vuMarkId);
 
         var iterator = instructionSteps.GetEnumerator();
 
@@ -117,7 +116,7 @@ public class InstructionEditor : EditorWindow {
             if (index >= 0)
             {
                 instructionSteps[index] = newStep;
-                newStep.Step.transform.SetParent(instructionObject.transform, true);
+                newStep.Step.transform.SetParent(instructionObject.transform, false);
                 newStep.Step.transform.SetSiblingIndex(index);
                 newStep.Step.SetActive(false);
                 DestroyImmediate(previousStep.Step);
@@ -133,7 +132,7 @@ public class InstructionEditor : EditorWindow {
         todo += () =>
         {
             instructionSteps.Add(instructionStep);
-            instructionStep.Step.transform.SetParent(instructionObject.transform, true);
+            instructionStep.Step.transform.SetParent(instructionObject.transform, false);
             instructionStep.Step.SetActive(false);
         };
     }
@@ -155,12 +154,6 @@ public class InstructionEditor : EditorWindow {
         var prefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Instruction.prefab");
         instructionObject = Instantiate(prefab);
         instructionObject.name = objectName;
-        qrScript = instructionObject.GetComponent<AttachToQRCode>();
-        if (qrScript == null)
-        {
-            qrScript = instructionObject.AddComponent<AttachToQRCode>();
-        }
-
     }
 
     private void OnDestroy()

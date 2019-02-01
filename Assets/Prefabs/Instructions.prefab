@@ -1131,6 +1131,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eafe7326fa4bf0b42bf2ba73538134ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  helpObject: {fileID: 0}
+  OnClose:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: PlayerEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   stepList:
   - Step: {fileID: 1275961247974920}
     Help: {fileID: 1696017738871558}
@@ -1140,6 +1145,9 @@ MonoBehaviour:
     Help: {fileID: 1093515599921282}
   - Step: {fileID: 1438800673565800}
     Help: {fileID: 0}
+  nextButton: {fileID: 0}
+  backButton: {fileID: 0}
+  closeButton: {fileID: 0}
 --- !u!114 &114120919894707778
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1448,7 +1456,7 @@ MonoBehaviour:
   ProgressBar: {fileID: 114148554883366708}
   TemperatureBar: {fileID: 114120919894707778}
   FileNameText: {fileID: 114337419373105810}
-  parentOfObjectPrinted: {fileID: 1114279654249544}
+  parentOfPrintedObject: {fileID: 0}
 --- !u!114 &114293378890200650
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1723,7 +1731,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed526732ea248894c84d51ad13d23acb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  helpObject: {fileID: 0}
+  OnClose:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: PlayerEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   octoPiInfo: {fileID: 114280310737779514}
+  domain: http://10.10.10.13
 --- !u!114 &114437097185360242
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 #if WINDOWS_UWP
 using Windows.Storage;
 #endif
@@ -8,6 +9,8 @@ namespace OctoPi
     public class OctoPiObject : InspectableObject
     {
         public OctoPiInfoObject octoPiInfo;
+        [SerializeField]
+        private string domain = "http://10.10.10.13";
 
         public override void Help()
         {
@@ -28,8 +31,8 @@ namespace OctoPi
 
         private void UpdateUI()
         {
-            OctoPiClient.GetJobInformation(OnJobInformationRecieved);
-            OctoPiClient.GetStateInformation((success, response) =>
+            OctoPiClient.GetJobInformation(domain, OnJobInformationRecieved);
+            OctoPiClient.GetStateInformation(domain, (success, response) =>
             {
                 if (!success) return;
                 octoPiInfo.TemperatureBar.TemperatureData = response.temperature.tool0;
@@ -40,7 +43,7 @@ namespace OctoPi
         {
             if (!jobInformationSuccess) return;
             octoPiInfo.ProgressBar.value = response.progress.completion * octoPiInfo.ProgressBar.maxValue;
-            if (octoPiInfo.ObjectPrinted != null && octoPiInfo.FileNameText.text.Equals(response.job.file.name))
+            if (octoPiInfo.PrintedObject != null && octoPiInfo.FileNameText.text.Equals(response.job.file.name))
             {
                 return;
             }
@@ -53,31 +56,20 @@ namespace OctoPi
             }
             string stlFileName = fileName.Substring(0, lastDot) + ".stl";
             string objFileName = fileName.Substring(0, lastDot) + ".obj";
-            OctoPiClient.GetFileInformation("local", stlFileName, (fileInformationSuccess, fileInfo) =>
+            OctoPiClient.GetFileInformation(domain, "local", stlFileName, (fileInformationSuccess, fileInfo) =>
             {
                 if (fileInformationSuccess)
                 {
-#if WINDOWS_UWP
-                    string stlStoragePath = KnownFolders.Objects3D.Path + "/" + stlFileName;
-                    string objStoragePath = KnownFolders.Objects3D.Path + "/" + objFileName;
-                    OctoPiClient.GetAndStoreFile(fileInfo.refs.download, stlStoragePath, (getAndStoreSuccess) =>
+                    OctoPiClient.GetFile(fileInfo.refs.download, (getAndStoreSuccess, text) =>
                     {
                         if (!getAndStoreSuccess) return;
-                        StlConverter.Converter.Convert(stlStoragePath, objStoragePath);
+                        string objText = StlConverter.Converter.ConvertStlText(text);
 
                         Mesh holderMesh = new Mesh();
                         ObjImporter newMesh = new ObjImporter();
-                        holderMesh = newMesh.ImportFile(objStoragePath);
-
-                        GameObject cube = new GameObject();
-
-                        MeshRenderer renderer = cube.AddComponent<MeshRenderer>();
-                        MeshFilter filter = cube.AddComponent<MeshFilter>();
-                        filter.mesh = holderMesh;
-                        cube.transform.localScale = 0.01f * cube.transform.localScale;
-                        octoPiInfo.UpdateObjectPrinted(cube);
+                        holderMesh = newMesh.ImportFileFromText(objFileName, objText);
+                        octoPiInfo.UpdateObjectPrinted(holderMesh);
                     });
-#endif
                 }
             });
         }

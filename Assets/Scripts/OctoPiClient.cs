@@ -18,6 +18,7 @@ namespace OctoPi
     {
         private static OctoPiClient Instance;
         public static readonly string xApiKey = "494F97703CD14F529D919058C1D2360E";
+
         // Use this for initialization
         void Start()
         {

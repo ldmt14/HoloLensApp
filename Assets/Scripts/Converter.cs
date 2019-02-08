@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace StlConverter
 {
@@ -51,6 +52,11 @@ namespace StlConverter
     public class Converter
     {
         public static string ConvertStlText(byte[] text)
+        {
+            return ConvertStlText(text, 0);
+        }
+
+        public static string ConvertStlText(byte[] text, int maxNumberOfTriangles)
         {
             bool isTextFormat;
             if (text.Length >= 5 && text[0] == 's' && text[1] == 'o' && text[2] == 'l' && text[3] == 'i' && text[4] == 'd')
@@ -263,6 +269,11 @@ namespace StlConverter
                             }
                             state = State.DEFAULT;
                             triangles.Add(currentTriangle);
+                            if (maxNumberOfTriangles > 0 && triangles.Count > maxNumberOfTriangles)
+                            {
+                                Debug.Log("Stl-File contains to many triangles. Conversion aborted");
+                                return null;
+                            }
                             currentTriangle = new Triangle();
                             break;
                     }
@@ -275,6 +286,11 @@ namespace StlConverter
                     throw new FormatException("Unexpected end of file. A binary stl-File must be at least 84 bytes in size");
                 }
                 int numberOfTriangles = BitConverter.ToInt32(text, 80);
+                if (maxNumberOfTriangles > 0 && numberOfTriangles > maxNumberOfTriangles)
+                {
+                    Debug.Log("Stl-File contains to many triangles. Conversion aborted");
+                    return null;
+                }
                 if (text.Length < 82 + numberOfTriangles * 50)
                 {
                     throw new FormatException("Expected size of File: " + (82 + numberOfTriangles * 50) + " bytes, but is: " + text.Length + " bytes");

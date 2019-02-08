@@ -18,7 +18,7 @@ namespace OctoPi
         private float scaleFactor = 0.001f;
         private Vector3 positionOfPrintedObject;
 
-        public void Start()
+        public void Awake()
         {
             if (PrintedObject != null)
             {

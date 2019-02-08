@@ -5129,7 +5129,7 @@ MonoBehaviour:
   FileNameText: {fileID: 114346582629828714}
   PrintedObject: {fileID: 1826593988802956}
   displayObjectInRealSize: 1
-  scaleFactor: 0.001
+  scaleFactor: 0.01
 --- !u!114 &114387762529223538
 MonoBehaviour:
   m_ObjectHideFlags: 1

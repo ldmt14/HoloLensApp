@@ -62,7 +62,6 @@ namespace OctoPi
                     {
                         if (!getAndStoreSuccess) return;
                         string objText = StlConverter.Converter.ConvertStlText(text, maxNumberOfTriangles);
-                        
                         if (objText == null)
                         {
                             return;

@@ -30,25 +30,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1543803816382278
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 4472504115308950}
-  - component: {fileID: 114733141819359140}
-  - component: {fileID: 33727667989119818}
-  - component: {fileID: 23611598502566106}
-  - component: {fileID: 114333628943297432}
-  m_Layer: 0
-  m_Name: MarkerController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &1990316949847664
 GameObject:
   m_ObjectHideFlags: 0
@@ -84,19 +65,6 @@ Transform:
   m_Father: {fileID: 4721383612904482}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4472504115308950
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1543803816382278}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
-  m_Children: []
-  m_Father: {fileID: 4721383612904482}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4721383612904482
 Transform:
   m_ObjectHideFlags: 1
@@ -108,51 +76,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4337884130977758}
-  - {fileID: 4472504115308950}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &23611598502566106
-MeshRenderer:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1543803816382278}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_Materials:
-  - {fileID: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
---- !u!33 &33727667989119818
-MeshFilter:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1543803816382278}
-  m_Mesh: {fileID: 0}
 --- !u!114 &114088569531320786
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -224,36 +150,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fcbd19a2e6808b42ada4d92b130dd8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114333628943297432
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1543803816382278}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1881939161, guid: bab6fa851cf5a1a4bba3cec5f191cb8e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mTrackableName: Chateau
-  mPreserveChildSize: 0
-  mInitializedInEditor: 1
-  mDataSetPath: Vuforia/HoloLensVumark.xml
-  mExtendedTracking: 1
-  mAspectRatio: 0.00004934122
-  mWidth: 0.1
-  mHeight: 0.000004934122
-  mPreviewImage: Assets/Editor/Vuforia/HoloLensVumark/656994280c7b4437bb7d773025c558ff_preview.png
-  mIdType: 1
-  mIdLength: 10
-  mBoundingBox:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 85916
-    height: 42392
-  mOrigin: {x: 3715, y: 3241}
-  mTrackingFromRuntimeAppearance: 0
 --- !u!114 &114392175692825766
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -312,20 +208,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c26883758c14e244af02ff2913dece5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114733141819359140
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1543803816382278}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a99de04a941316a4e959f54aa0b3102c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Holograms:
-  - VuforiaId: 1234567890
-    Hologram: {fileID: 0}
 --- !u!114 &114749715543312332
 MonoBehaviour:
   m_ObjectHideFlags: 1

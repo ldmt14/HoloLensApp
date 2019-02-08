@@ -12,10 +12,8 @@ namespace OctoPi
         [SerializeField]
         private string domain = "http://10.10.10.13";
 
-        public override void Help()
-        {
-            throw new System.NotImplementedException();
-        }
+        [SerializeField, Tooltip("If the printed Object consists of more Trianlges than this number its hologram will not be displayed. Set to zero for unlimited number of triangles.")]
+        private int maxNumberOfTriangles = 10000;
 
         // Use this for initialization
         void Start()
@@ -63,8 +61,11 @@ namespace OctoPi
                     OctoPiClient.GetFile(fileInfo.refs.download, (getAndStoreSuccess, text) =>
                     {
                         if (!getAndStoreSuccess) return;
-                        string objText = StlConverter.Converter.ConvertStlText(text);
-
+                        string objText = StlConverter.Converter.ConvertStlText(text, maxNumberOfTriangles);
+                        if (objText == null)
+                        {
+                            return;
+                        }
                         Mesh holderMesh = new Mesh();
                         ObjImporter newMesh = new ObjImporter();
                         holderMesh = newMesh.ImportFileFromText(objFileName, objText);

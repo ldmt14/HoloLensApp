@@ -37,7 +37,7 @@ public class ObjImporter
     public Mesh ImportFileFromText(string fileName, string entireText)
     {
         meshStruct newMesh = createMeshStruct(fileName, entireText);
-        populateMeshStruct(ref newMesh);
+        populateMeshStruct(ref newMesh, entireText);
 
         Vector3[] newVerts = new Vector3[newMesh.faceData.Length];
         Vector2[] newUVs = new Vector2[newMesh.faceData.Length];
@@ -132,9 +132,8 @@ public class ObjImporter
         return mesh;
     }
 
-    private static void populateMeshStruct(ref meshStruct mesh)
+    private static void populateMeshStruct(ref meshStruct mesh, string entireText)
     {
-        string entireText = File.ReadAllText(mesh.fileName);
         using (StringReader reader = new StringReader(entireText))
         {
             string currentText = reader.ReadLine();

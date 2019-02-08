@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace StlConverter
 {
@@ -52,6 +53,11 @@ namespace StlConverter
     {
         public static string ConvertStlText(byte[] text)
         {
+            return ConvertStlText(text, 0);
+        }
+
+        public static string ConvertStlText(byte[] text, int maxNumberOfTriangles)
+        {
             bool isTextFormat;
             if (text.Length >= 5 && text[0] == 's' && text[1] == 'o' && text[2] == 'l' && text[3] == 'i' && text[4] == 'd')
             {
@@ -70,7 +76,7 @@ namespace StlConverter
             Point currentPoint = new Point();
             if (isTextFormat)
             {
-                string[] inputFile = Encoding.ASCII.GetString(text).Split(new char[] { ' ', '\n', '\t', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+                string[] inputFile = Encoding.UTF8.GetString(text).Split(new char[] { ' ', '\n', '\t', '\r' }, StringSplitOptions.RemoveEmptyEntries);
                 State state = State.DEFAULT;
                 name = inputFile[1];
                 for (int i = 1; i < inputFile.Count();)
@@ -263,6 +269,11 @@ namespace StlConverter
                             }
                             state = State.DEFAULT;
                             triangles.Add(currentTriangle);
+                            if (maxNumberOfTriangles > 0 && triangles.Count > maxNumberOfTriangles)
+                            {
+                                Debug.Log("Stl-File contains to many triangles. Conversion aborted");
+                                return null;
+                            }
                             currentTriangle = new Triangle();
                             break;
                     }
@@ -275,6 +286,11 @@ namespace StlConverter
                     throw new FormatException("Unexpected end of file. A binary stl-File must be at least 84 bytes in size");
                 }
                 int numberOfTriangles = BitConverter.ToInt32(text, 80);
+                if (maxNumberOfTriangles > 0 && numberOfTriangles > maxNumberOfTriangles)
+                {
+                    Debug.Log("Stl-File contains to many triangles. Conversion aborted");
+                    return null;
+                }
                 if (text.Length < 82 + numberOfTriangles * 50)
                 {
                     throw new FormatException("Expected size of File: " + (82 + numberOfTriangles * 50) + " bytes, but is: " + text.Length + " bytes");
@@ -323,18 +339,18 @@ namespace StlConverter
                 }
             }
             StringBuilder outputString = new StringBuilder();
-            outputString.Append("o " + name);
+            outputString.AppendLine("o " + name);
             for (int i = 0; i < vertices.Count(); i++)
             {
-                outputString.Append(string.Format("v {0} {1} {2}", vertices[i].X, vertices[i].Y, vertices[i].Z));
+                outputString.AppendLine(string.Format("v {0} {1} {2}", vertices[i].X, vertices[i].Y, vertices[i].Z));
             }
             for (int i = 0; i < normals.Count(); i++)
             {
-                outputString.Append(string.Format("vn {0} {1} {2}", normals[i].X, normals[i].Y, normals[i].Z));
+                outputString.AppendLine(string.Format("vn {0} {1} {2}", normals[i].X, normals[i].Y, normals[i].Z));
             }
             for (int i = 0; i < triangles.Count(); i++)
             {
-                outputString.Append(string.Format("f {0}//{3} {1}//{3} {2}//{3}", triangles[i].V1 + 1, triangles[i].V2 + 1, triangles[i].V3 + 1, triangles[i].Normal + 1));
+                outputString.AppendLine(string.Format("f {0}//{3} {1}//{3} {2}//{3}", triangles[i].V1 + 1, triangles[i].V2 + 1, triangles[i].V3 + 1, triangles[i].Normal + 1));
             }
             return outputString.ToString();
         }

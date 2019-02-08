@@ -1,5 +1,4 @@
-﻿using HoloToolkit.Unity.QRTracking;
-using OctoPi;
+﻿using OctoPi;
 using System;
 using System.Collections;
 using System.Collections.Generic;

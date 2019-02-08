@@ -569,9 +569,9 @@ PlayerSettings:
   metroPackageVersion: 1.0.0.0
   metroCertificatePath: Assets\WSATestCertificate.pfx
   metroCertificatePassword: 
-  metroCertificateSubject: LongQian
-  metroCertificateIssuer: LongQian
-  metroCertificateNotAfter: 803e13e566e3d401
+  metroCertificateSubject: DefaultCompany
+  metroCertificateIssuer: DefaultCompany
+  metroCertificateNotAfter: 809bda43d8ded501
   metroApplicationDescription: HoloLensApp
   wsaImages: {}
   metroTileShortName: HoloLensApp

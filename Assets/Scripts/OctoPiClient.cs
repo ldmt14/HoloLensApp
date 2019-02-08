@@ -1,5 +1,5 @@
-#define LDMT_TESTING_WITHOUT_PRINT_JOB
-#define LDMT_TESTING_WITHOUT_OCTOPI
+//#define LDMT_TESTING_WITHOUT_PRINT_JOB
+//#define LDMT_TESTING_WITHOUT_OCTOPI
 
 using Newtonsoft.Json;
 using System;

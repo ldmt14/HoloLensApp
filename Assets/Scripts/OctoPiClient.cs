@@ -1,9 +1,11 @@
-#define LDMT_TESTING
+#define LDMT_TESTING_WITHOUT_PRINT_JOB
+#define LDMT_TESTING_WITHOUT_OCTOPI
 
 using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -38,6 +40,96 @@ namespace OctoPi
 
         private static IEnumerator GetFileInternal(string download, FileDownloadCallback callback)
         {
+#if LDMT_TESTING_WITHOUT_OCTOPI
+            var data = Encoding.UTF8.GetBytes(@"solid model
+facet normal 0.0 0.0 -1.0
+outer loop
+vertex 40.0 0.0 0.0
+vertex 0.0 -40.0 0.0
+vertex 0.0 0.0 0.0
+endloop
+endfacet
+facet normal 0.0 0.0 -1.0
+outer loop
+vertex 0.0 -40.0 0.0
+vertex 40.0 0.0 0.0
+vertex 40.0 -40.0 0.0
+endloop
+endfacet
+facet normal -0.0 -1.0 -0.0
+outer loop
+vertex 40.0 -40.0 40.0
+vertex 0.0 -40.0 0.0
+vertex 40.0 -40.0 0.0
+endloop
+endfacet
+facet normal -0.0 -1.0 -0.0
+outer loop
+vertex 0.0 -40.0 0.0
+vertex 40.0 -40.0 40.0
+vertex 0.0 -40.0 40.0
+endloop
+endfacet
+facet normal 1.0 0.0 0.0
+outer loop
+vertex 40.0 0.0 0.0
+vertex 40.0 -40.0 40.0
+vertex 40.0 -40.0 0.0
+endloop
+endfacet
+facet normal 1.0 0.0 0.0
+outer loop
+vertex 40.0 -40.0 40.0
+vertex 40.0 0.0 0.0
+vertex 40.0 0.0 40.0
+endloop
+endfacet
+facet normal -0.0 -0.0 1.0
+outer loop
+vertex 40.0 -40.0 40.0
+vertex 0.0 0.0 40.0
+vertex 0.0 -40.0 40.0
+endloop
+endfacet
+facet normal -0.0 -0.0 1.0
+outer loop
+vertex 0.0 0.0 40.0
+vertex 40.0 -40.0 40.0
+vertex 40.0 0.0 40.0
+endloop
+endfacet
+facet normal -1.0 0.0 0.0
+outer loop
+vertex 0.0 0.0 40.0
+vertex 0.0 -40.0 0.0
+vertex 0.0 -40.0 40.0
+endloop
+endfacet
+facet normal -1.0 0.0 0.0
+outer loop
+vertex 0.0 -40.0 0.0
+vertex 0.0 0.0 40.0
+vertex 0.0 0.0 0.0
+endloop
+endfacet
+facet normal -0.0 1.0 0.0
+outer loop
+vertex 0.0 0.0 40.0
+vertex 40.0 0.0 0.0
+vertex 0.0 0.0 0.0
+endloop
+endfacet
+facet normal -0.0 1.0 0.0
+outer loop
+vertex 40.0 0.0 0.0
+vertex 0.0 0.0 40.0
+vertex 40.0 0.0 40.0
+endloop
+endfacet
+endsolid model
+");
+            yield return null;
+#else
             UnityWebRequest request = UnityWebRequest.Get(download);
             yield return request.SendWebRequest();
             if (request.isNetworkError || request.isHttpError)
@@ -45,8 +137,12 @@ namespace OctoPi
                 callback.Invoke(false, null);
             } else
             {
-                callback.Invoke(true, request.downloadHandler.data);
+                var data = request.downloadHandler.data;
+#endif
+                callback.Invoke(true, data);
+#if !LDMT_TESTING_WITHOUT_OCTOPI
             }
+#endif
         }
 
         public static void GetFileInformation(string domain, string location, string path, FileInformationCallback callback)
@@ -56,6 +152,35 @@ namespace OctoPi
 
         private static IEnumerator GetFileInformationInternal(string domain, string location, string path, FileInformationCallback callback)
         {
+#if LDMT_TESTING_WITHOUT_OCTOPI
+            var json = @"
+{
+  ""name"": ""BVS.gco"",
+  ""size"": 1468987,
+  ""date"": 1378847754,
+  ""origin"": ""local"",
+  ""refs"": {
+    ""resource"": ""http://example.com/api/files/local/BVS.gco"",
+    ""download"": ""http://example.com/downloads/files/local/BVS.gco""
+  },
+  ""gcodeAnalysis"": {
+    ""estimatedPrintTime"": 1188,
+    ""filament"": {
+      ""length"": 810,
+      ""volume"": 5.36
+    }
+  },
+  ""print"": {
+    ""failure"": 4,
+    ""success"": 23,
+    ""last"": {
+      ""date"": 1387144346,
+      ""success"": true
+    }
+  }
+}";
+            yield return null;
+#else
             UnityWebRequest request = UnityWebRequest.Get(domain + "/api/files/" + location + "/" + path);
             request.SetRequestHeader("x-api-key", xApiKey);
             yield return request.SendWebRequest();
@@ -65,9 +190,12 @@ namespace OctoPi
             } else
             {
                 var json = System.Text.Encoding.ASCII.GetString(request.downloadHandler.data);
+#endif
                 FileInformation result = JsonConvert.DeserializeObject<FileInformation>(json);
                 callback.Invoke(true, result);
+#if !LDMT_TESTING_WITHOUT_OCTOPI
             }
+#endif
         }
 
         public static void GetJobInformation(string domain, JobInformationCallback callback)
@@ -78,7 +206,7 @@ namespace OctoPi
         private static IEnumerator GetJobInformationInternal(string domain, JobInformationCallback callback)
         {
             JobInformationResponse result;
-#if LDMT_TESTING
+#if LDMT_TESTING_WITHOUT_PRINT_JOB
             yield return null;
             var json = @"
 {
@@ -115,7 +243,7 @@ namespace OctoPi
 #endif
                 result = JsonConvert.DeserializeObject<JobInformationResponse>(json);
                 callback.Invoke(true, result);
-#if !LDMT_TESTING
+#if !LDMT_TESTING_WITHOUT_PRINT_JOB
             }
 #endif
         }
@@ -128,7 +256,7 @@ namespace OctoPi
         private static IEnumerator GetStateInformationInternal(string domain, StateInformationCallback callback)
         {
             FullStateResponse result;
-#if LDMT_TESTING
+#if LDMT_TESTING_WITHOUT_PRINT_JOB
             yield return null;
             var json = @"
 {
@@ -209,7 +337,7 @@ namespace OctoPi
 #endif
                 result = JsonConvert.DeserializeObject<FullStateResponse>(json);
                 callback.Invoke(true, result);
-#if !LDMT_TESTING
+#if !LDMT_TESTING_WITHOUT_PRINT_JOB
             }
 #endif
         }
